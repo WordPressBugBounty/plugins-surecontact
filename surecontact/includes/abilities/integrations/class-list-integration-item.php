@@ -132,7 +132,7 @@ WORKFLOW — use this to find item IDs for automation rules:
 		return $this->success(
 			sprintf(
 				/* translators: 1: number of items, 2: integration slug */
-				__( 'Found %1$d item(s) for "%2$s" integration.', 'surecontact' ),
+				_n( 'Found %1$d item for "%2$s" integration.', 'Found %1$d items for "%2$s" integration.', count( $formatted_items ), 'surecontact' ),
 				count( $formatted_items ),
 				$slug
 			),

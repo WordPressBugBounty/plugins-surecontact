@@ -136,7 +136,7 @@ WORKFLOW — use this to build the field_mapping for surecontact/create-rule:
 		return $this->success(
 			sprintf(
 				/* translators: 1: number of fields, 2: item ID, 3: integration slug */
-				__( 'Found %1$d field(s) for item %2$s in "%3$s" integration.', 'surecontact' ),
+				_n( 'Found %1$d field for item %2$s in "%3$s" integration.', 'Found %1$d fields for item %2$s in "%3$s" integration.', count( $fields ), 'surecontact' ),
 				count( $fields ),
 				$item_id,
 				$slug

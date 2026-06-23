@@ -4,7 +4,7 @@ Tags: crm, email marketing, newsletter, ecommerce, email automation
 Requires at least: 5.8
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 1.5.1
+Stable tag: 1.5.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,10 @@ You can report the issue through our [Bug Bounty Program](https://brainstormforc
 4. App Email Templates
 
 == Changelog ==
+
+= 1.5.2 - 23rd June 2026 =
+* Improvement: Added translations for the top 20 languages.
+* Improvement: Improved internationalization with proper pluralization handling.
 
 = 1.5.1 - 4th June 2026 =
 * New: Added FluentCRM Pro company syncing to SureContact.

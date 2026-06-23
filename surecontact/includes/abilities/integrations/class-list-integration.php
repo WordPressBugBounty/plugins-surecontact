@@ -153,7 +153,7 @@ WORKFLOW — this is usually the first step:
 		return $this->success(
 			sprintf(
 				/* translators: %d: number of integrations */
-				__( 'Found %d integration(s).', 'surecontact' ),
+				_n( 'Found %d integration.', 'Found %d integrations.', count( $results ), 'surecontact' ),
 				count( $results )
 			),
 			[ 'integrations' => $results ]

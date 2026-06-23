@@ -169,7 +169,7 @@ NOTE: This shows item-level automation rules only. For global integration settin
 		return $this->success(
 			sprintf(
 				/* translators: %d: number of rules */
-				__( 'Found %d integration rule(s).', 'surecontact' ),
+				_n( 'Found %d integration rule.', 'Found %d integration rules.', count( $rules ), 'surecontact' ),
 				count( $rules )
 			),
 			[ 'rules' => $rules ]

@@ -141,12 +141,17 @@ NO INPUT REQUIRED — syncs everything automatically.';
 		$lists_count = ( $lists_synced && is_array( $all_lists ) ) ? count( $all_lists ) : 0;
 		$tags_count  = ( $tags_synced && is_array( $all_tags ) ) ? count( $all_tags ) : 0;
 
+		/* translators: %d: number of lists */
+		$lists_text = sprintf( _n( '%d list', '%d lists', $lists_count, 'surecontact' ), $lists_count );
+		/* translators: %d: number of tags */
+		$tags_text = sprintf( _n( '%d tag', '%d tags', $tags_count, 'surecontact' ), $tags_count );
+
 		return $this->success(
 			sprintf(
-				/* translators: 1: number of lists, 2: number of tags */
-				__( 'Synced %1$d list(s) and %2$d tag(s) from CRM.', 'surecontact' ),
-				$lists_count,
-				$tags_count
+				/* translators: 1: formatted list count (e.g. "3 lists"), 2: formatted tag count (e.g. "5 tags") */
+				__( 'Synced %1$s and %2$s from CRM.', 'surecontact' ),
+				$lists_text,
+				$tags_text
 			),
 			[
 				'lists_count' => $lists_count,

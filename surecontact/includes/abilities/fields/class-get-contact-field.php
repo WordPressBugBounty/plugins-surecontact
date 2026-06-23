@@ -108,7 +108,7 @@ WORKFLOW:
 		return $this->success(
 			sprintf(
 				/* translators: 1: number of primary fields, 2: number of custom fields */
-				__( 'Found %1$d primary and %2$d custom field(s).', 'surecontact' ),
+				_n( 'Found %1$d primary and %2$d custom field.', 'Found %1$d primary and %2$d custom fields.', count( $custom_fields ), 'surecontact' ),
 				count( $primary_fields ),
 				count( $custom_fields )
 			),

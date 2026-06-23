@@ -33,10 +33,10 @@ msgstr "Envoyez des newsletters, configurez des automatisations par e-mail, gér
 #: surecontact.php
 #: includes/admin/class-admin-menu.php:69
 #: includes/admin/class-admin-menu.php:70
-#: includes/integrations/class-gravity-forms-integration.php:618
-#: includes/integrations/class-gravity-forms-integration.php:665
+#: includes/integrations/class-gravity-forms-integration.php:632
+#: includes/integrations/class-gravity-forms-integration.php:686
 #: src/App.jsx:84
-#: src/components/AuthPage.jsx:129
+#: src/components/AuthPage.jsx:223
 msgid "SureContact"
 msgstr "SureContact"
 
@@ -82,7 +82,7 @@ msgid "Create List"
 msgstr "Créer une liste"
 
 #: includes/abilities/crm/class-create-list.php:95
-#: includes/api-wp/class-lists-tags-api.php:464
+#: includes/api-wp/class-lists-tags-api.php:476
 #: includes/api/class-lists-tags-api.php:151
 msgid "List name is required."
 msgstr "Le nom de la liste est requis."
@@ -93,8 +93,8 @@ msgstr "Demande de création de liste mise en pause pour traitement en arrière-
 
 #: includes/abilities/crm/class-create-list.php:115
 #: includes/abilities/crm/class-create-tag.php:115
-#: includes/api-wp/class-lists-tags-api.php:490
-#: includes/api-wp/class-lists-tags-api.php:557
+#: includes/api-wp/class-lists-tags-api.php:502
+#: includes/api-wp/class-lists-tags-api.php:569
 msgid "Invalid response from SureContact API."
 msgstr "Réponse invalide de l'API SureContact."
 
@@ -110,7 +110,7 @@ msgid "Create Tag"
 msgstr "Créer une étiquette"
 
 #: includes/abilities/crm/class-create-tag.php:95
-#: includes/api-wp/class-lists-tags-api.php:531
+#: includes/api-wp/class-lists-tags-api.php:543
 #: includes/api/class-lists-tags-api.php:193
 msgid "Tag name is required."
 msgstr "Le nom de l'étiquette est requis."
@@ -133,12 +133,6 @@ msgstr "Obtenir toutes les listes"
 msgid "No lists found. Run surecontact/import-metadata to sync from CRM, or create one with surecontact/create-list."
 msgstr "Aucune liste trouvée. Exécutez surecontact/import-metadata pour synchroniser à partir du CRM, ou créez-en une avec surecontact/create-list."
 
-#. translators: %d: number of lists found
-#: includes/abilities/crm/class-get-list.php:122
-#, php-format
-msgid "Found %d list(s)."
-msgstr "Trouvé %d liste(s)."
-
 #: includes/abilities/crm/class-get-tag.php:40
 msgid "Get All Tags"
 msgstr "Obtenir toutes les étiquettes"
@@ -147,29 +141,17 @@ msgstr "Obtenir toutes les étiquettes"
 msgid "No tags found. Run surecontact/import-metadata to sync from CRM, or create one with surecontact/create-tag."
 msgstr "Aucune étiquette trouvée. Exécutez surecontact/import-metadata pour synchroniser à partir du CRM, ou créez-en une avec surecontact/create-tag."
 
-#. translators: %d: number of tags found
-#: includes/abilities/crm/class-get-tag.php:122
-#, php-format
-msgid "Found %d tag(s)."
-msgstr "Trouvé %d étiquette(s)."
-
 #: includes/abilities/crm/class-import-metadata.php:41
 msgid "Sync Lists & Tags from CRM"
 msgstr "Synchroniser les listes et étiquettes depuis le CRM"
 
 #: includes/abilities/crm/class-import-metadata.php:133
-#: includes/api-wp/class-lists-tags-api.php:292
+#: includes/api-wp/class-lists-tags-api.php:304
 #: src/components/ListSelect.jsx:72
 #: src/components/TagSelect.jsx:72
 #: src/screens/settings/components/SettingsHeader.jsx:24
 msgid "Failed to sync lists and tags from CRM."
 msgstr "Échec de la synchronisation des listes et étiquettes depuis le CRM."
-
-#. translators: 1: number of lists, 2: number of tags
-#: includes/abilities/crm/class-import-metadata.php:147
-#, php-format
-msgid "Synced %1$d list(s) and %2$d tag(s) from CRM."
-msgstr "Listes %1$d et étiquettes %2$d synchronisées depuis le CRM."
 
 #: includes/abilities/fields/class-create-contact-field.php:41
 msgid "Create Custom Contact Field"
@@ -195,19 +177,13 @@ msgstr "Champ personnalisé \"%s\" créé avec succès."
 msgid "Get Contact Fields"
 msgstr "Obtenir des champs de contact"
 
-#. translators: 1: number of primary fields, 2: number of custom fields
-#: includes/abilities/fields/class-get-contact-field.php:111
-#, php-format
-msgid "Found %1$d primary and %2$d custom field(s)."
-msgstr "Trouvé %1$d champ(s) principal/aux et %2$d champ(s) personnalisé(s)."
-
 #: includes/abilities/integrations/class-get-integration.php:39
 msgid "Get Integration Details"
 msgstr "Obtenir les détails de l'intégration"
 
 #. translators: %s: integration slug
 #: includes/abilities/integrations/class-get-integration.php:131
-#: includes/api-wp/class-integration-rules-api.php:1557
+#: includes/api-wp/class-integration-rules-api.php:1563
 #, php-format
 msgid "Integration not found: %s"
 msgstr "Intégration non trouvée : %s"
@@ -243,31 +219,13 @@ msgstr "Obtenir des champs d'article"
 msgid "The required plugin must be installed and active. Use surecontact/list-integration to check."
 msgstr "Le plugin requis doit être installé et actif. Utilisez surecontact/list-integration pour vérifier."
 
-#. translators: 1: number of fields, 2: item ID, 3: integration slug
-#: includes/abilities/integrations/class-get-item-field.php:139
-#, php-format
-msgid "Found %1$d field(s) for item %2$s in \"%3$s\" integration."
-msgstr "Trouvé %1$d champ(s) pour l'article %2$s dans l'intégration \"%3$s\"."
-
 #: includes/abilities/integrations/class-list-integration-item.php:39
 msgid "List Integration Items"
 msgstr "Lister les éléments d'intégration"
 
-#. translators: 1: number of items, 2: integration slug
-#: includes/abilities/integrations/class-list-integration-item.php:135
-#, php-format
-msgid "Found %1$d item(s) for \"%2$s\" integration."
-msgstr "Trouvé %1$d élément(s) pour l'intégration \"%2$s\"."
-
 #: includes/abilities/integrations/class-list-integration.php:39
 msgid "List All Integrations"
 msgstr "Lister toutes les intégrations"
-
-#. translators: %d: number of integrations
-#: includes/abilities/integrations/class-list-integration.php:156
-#, php-format
-msgid "Found %d integration(s)."
-msgstr "Trouvé %d intégration(s)."
 
 #: includes/abilities/integrations/class-update-integration-setting.php:39
 msgid "Update Integration Settings"
@@ -305,20 +263,20 @@ msgstr "Utilisez surecontact/list-integration pour voir les intégrations dispon
 
 #: includes/abilities/integrations/class-update-integration-status.php:129
 #: includes/abilities/rules/class-update-rule-status.php:146
-#: includes/api-wp/class-integration-rules-api.php:1056
+#: includes/api-wp/class-integration-rules-api.php:1062
 msgid "enabled"
 msgstr "activé"
 
 #: includes/abilities/integrations/class-update-integration-status.php:129
 #: includes/abilities/rules/class-update-rule-status.php:146
-#: includes/api-wp/class-integration-rules-api.php:1056
+#: includes/api-wp/class-integration-rules-api.php:1062
 msgid "disabled"
 msgstr "désactivé"
 
 #. translators: 1: integration slug, 2: enabled/disabled
 #. translators: %1$s: integration slug, %2$s: enabled/disabled.
 #: includes/abilities/integrations/class-update-integration-status.php:134
-#: includes/api-wp/class-integration-rules-api.php:1063
+#: includes/api-wp/class-integration-rules-api.php:1069
 #, php-format
 msgid "Integration \"%1$s\" %2$s successfully."
 msgstr "L'intégration \"%1$s\" %2$s avec succès."
@@ -390,12 +348,6 @@ msgstr "Configuration de règle récupérée avec succès."
 msgid "List All Automation Rules"
 msgstr "Lister toutes les règles d'automatisation"
 
-#. translators: %d: number of rules
-#: includes/abilities/rules/class-list-rule.php:172
-#, php-format
-msgid "Found %d integration rule(s)."
-msgstr "Trouvé %d règle(s) d'intégration."
-
 #: includes/abilities/rules/class-update-rule-status.php:39
 msgid "Enable/Disable Rule"
 msgstr "Activer/Désactiver la règle"
@@ -430,13 +382,13 @@ msgstr "Tableau de bord"
 
 #: includes/admin/wordpress-fields.php:35
 #: includes/class-field-mapper.php:268
-#: includes/integrations/class-fluentcrm-integration.php:114
+#: includes/integrations/class-fluentcrm-integration.php:203
 msgid "First Name"
 msgstr "Prénom"
 
 #: includes/admin/wordpress-fields.php:40
 #: includes/class-field-mapper.php:272
-#: includes/integrations/class-fluentcrm-integration.php:118
+#: includes/integrations/class-fluentcrm-integration.php:207
 msgid "Last Name"
 msgstr "Nom"
 
@@ -509,145 +461,145 @@ msgstr "Type de champ"
 msgid "Options for select/multi_select fields"
 msgstr "Options pour les champs select/multi_select"
 
-#: includes/api-wp/class-field-mapping.php:182
+#: includes/api-wp/class-field-mapping.php:191
 msgid "Whether the field is required"
 msgstr "Que le champ soit requis"
 
-#: includes/api-wp/class-field-mapping.php:267
+#: includes/api-wp/class-field-mapping.php:276
 #: src/screens/contact-fields/FieldMappingTable.jsx:57
 msgid "Field mappings saved successfully!"
 msgstr "Mappages de champs enregistrés avec succès !"
 
-#: includes/api-wp/class-field-mapping.php:275
+#: includes/api-wp/class-field-mapping.php:284
 #: src/api/fieldMapping.js:113
 #: src/api/fieldMapping.js:118
 msgid "Failed to save field mappings."
 msgstr "Échec de l'enregistrement des mappages de champs."
 
-#: includes/api-wp/class-field-mapping.php:322
+#: includes/api-wp/class-field-mapping.php:331
 #: src/components/CustomFieldSelect.jsx:62
 #: src/screens/contact-fields/FieldMappingTable.jsx:143
 msgid "CRM fields synced successfully!"
 msgstr "Champs CRM synchronisés avec succès !"
 
-#: includes/api-wp/class-field-mapping.php:362
+#: includes/api-wp/class-field-mapping.php:371
 msgid "Options are required for select and multi-select fields."
 msgstr "Des options sont requises pour les champs select et multi-select."
 
-#: includes/api-wp/class-field-mapping.php:426
+#: includes/api-wp/class-field-mapping.php:435
 #: src/screens/contact-fields/FieldMappingTable.jsx:113
 #: src/screens/integrations/IntegrationsTableCard.jsx:149
 msgid "Custom field created successfully!"
 msgstr "Champ personnalisé créé avec succès !"
 
-#: includes/api-wp/class-integration-rules-api.php:471
+#: includes/api-wp/class-integration-rules-api.php:477
 msgid "Integration metadata not available."
 msgstr "Métadonnées d'intégration non disponibles."
 
-#: includes/api-wp/class-integration-rules-api.php:658
+#: includes/api-wp/class-integration-rules-api.php:664
 msgid "Failed to save integration configuration."
 msgstr "Échec de l'enregistrement de la configuration d'intégration."
 
-#: includes/api-wp/class-integration-rules-api.php:672
+#: includes/api-wp/class-integration-rules-api.php:678
 msgid "Configuration saved successfully."
 msgstr "Configuration enregistrée avec succès."
 
-#: includes/api-wp/class-integration-rules-api.php:698
+#: includes/api-wp/class-integration-rules-api.php:704
 msgid "Failed to update integration status."
 msgstr "Échec de la mise à jour de l'état d'intégration."
 
-#: includes/api-wp/class-integration-rules-api.php:706
+#: includes/api-wp/class-integration-rules-api.php:712
 msgid "Configuration not found."
 msgstr "Configuration non trouvée."
 
-#: includes/api-wp/class-integration-rules-api.php:714
+#: includes/api-wp/class-integration-rules-api.php:720
 msgid "Integration status updated successfully."
 msgstr "État d'intégration mis à jour avec succès."
 
-#: includes/api-wp/class-integration-rules-api.php:740
+#: includes/api-wp/class-integration-rules-api.php:746
 msgid "Failed to delete integration configuration or configuration not found."
 msgstr "Échec de la suppression de la configuration d'intégration ou configuration non trouvée."
 
-#: includes/api-wp/class-integration-rules-api.php:754
+#: includes/api-wp/class-integration-rules-api.php:760
 msgid "Configuration deleted successfully."
 msgstr "Configuration supprimée avec succès."
 
-#: includes/api-wp/class-integration-rules-api.php:890
-#: includes/api-wp/class-integration-rules-api.php:1099
-#: includes/api-wp/class-integration-rules-api.php:1545
+#: includes/api-wp/class-integration-rules-api.php:896
+#: includes/api-wp/class-integration-rules-api.php:1105
+#: includes/api-wp/class-integration-rules-api.php:1551
 msgid "Integrations loader not initialized."
 msgstr "Chargeur d'intégrations non initialisé."
 
 #. translators: %s: integration slug
-#: includes/api-wp/class-integration-rules-api.php:1049
+#: includes/api-wp/class-integration-rules-api.php:1055
 #, php-format
 msgid "Failed to toggle integration: %s"
 msgstr "Échec de l'activation de l'intégration : %s"
 
-#: includes/api-wp/class-integration-rules-api.php:1091
+#: includes/api-wp/class-integration-rules-api.php:1097
 msgid "You do not have permission to activate plugins."
 msgstr "Vous n'avez pas la permission d'activer les plugins."
 
-#: includes/api-wp/class-integration-rules-api.php:1132
+#: includes/api-wp/class-integration-rules-api.php:1138
 msgid "No plugin file registered for this integration."
 msgstr "Aucun fichier de plugin enregistré pour cette intégration."
 
-#: includes/api-wp/class-integration-rules-api.php:1141
+#: includes/api-wp/class-integration-rules-api.php:1147
 msgid "This plugin is not installed. Please install it first."
 msgstr "Ce plugin n'est pas installé. Veuillez l'installer d'abord."
 
 #. translators: %s: plugin file path
-#: includes/api-wp/class-integration-rules-api.php:1160
+#: includes/api-wp/class-integration-rules-api.php:1166
 #, php-format
 msgid "Required dependency \"%s\" is not installed."
 msgstr "La dépendance requise \"%s\" n'est pas installée."
 
 #. translators: %1$s: plugin file path, %2$s: error message
-#: includes/api-wp/class-integration-rules-api.php:1173
+#: includes/api-wp/class-integration-rules-api.php:1179
 #, php-format
 msgid "Failed to activate dependency \"%1$s\": %2$s"
 msgstr "Échec de l'activation de la dépendance \"%1$s\": %2$s"
 
-#: includes/api-wp/class-integration-rules-api.php:1188
+#: includes/api-wp/class-integration-rules-api.php:1194
 msgid "Plugin is already active."
 msgstr "Le plugin est déjà actif."
 
-#: includes/api-wp/class-integration-rules-api.php:1207
+#: includes/api-wp/class-integration-rules-api.php:1213
 msgid "Plugin activated successfully."
 msgstr "Plugin activé avec succès."
 
-#: includes/api-wp/class-integration-rules-api.php:1345
+#: includes/api-wp/class-integration-rules-api.php:1351
 msgid "Failed to save integration settings."
 msgstr "Échec de l'enregistrement des paramètres d'intégration."
 
-#: includes/api-wp/class-integration-rules-api.php:1353
+#: includes/api-wp/class-integration-rules-api.php:1359
 msgid "Integration settings saved successfully."
 msgstr "Paramètres d'intégration enregistrés avec succès."
 
 #. translators: %s: integration slug
-#: includes/api-wp/class-integration-rules-api.php:1570
+#: includes/api-wp/class-integration-rules-api.php:1576
 #, php-format
 msgid "Integration \"%s\" is not available. The required plugin may not be installed or active."
 msgstr "L'intégration \"%s\" n'est pas disponible. Le plugin requis peut ne pas être installé ou actif."
 
-#: includes/api-wp/class-lists-tags-api.php:108
+#: includes/api-wp/class-lists-tags-api.php:119
 msgid "The name of the list to create."
 msgstr "Le nom de la liste à créer."
 
-#: includes/api-wp/class-lists-tags-api.php:134
+#: includes/api-wp/class-lists-tags-api.php:146
 msgid "The name of the tag to create."
 msgstr "Le nom de l'étiquette à créer."
 
-#: includes/api-wp/class-lists-tags-api.php:180
+#: includes/api-wp/class-lists-tags-api.php:192
 msgid "No cached lists found. Please sync lists and tags."
 msgstr "Aucune liste mise en cache trouvée. Veuillez synchroniser les listes et les étiquettes."
 
-#: includes/api-wp/class-lists-tags-api.php:230
+#: includes/api-wp/class-lists-tags-api.php:242
 msgid "No cached tags found. Please sync lists and tags."
 msgstr "Aucune étiquette mise en cache trouvée. Veuillez synchroniser les listes et les étiquettes."
 
 #. translators: %d: number of lists
-#: includes/api-wp/class-lists-tags-api.php:302
+#: includes/api-wp/class-lists-tags-api.php:314
 #, php-format
 msgid "%d list synced"
 msgid_plural "%d lists synced"
@@ -655,56 +607,50 @@ msgstr[0] "%d liste synchronisée"
 msgstr[1] "%d listes synchronisées"
 
 #. translators: %d: number of tags
-#: includes/api-wp/class-lists-tags-api.php:311
+#: includes/api-wp/class-lists-tags-api.php:323
 #, php-format
 msgid "%d tag synced"
 msgid_plural "%d tags synced"
 msgstr[0] "%d étiquette synchronisée"
 msgstr[1] "%d étiquettes synchronisées"
 
-#: includes/api-wp/class-lists-tags-api.php:510
+#: includes/api-wp/class-lists-tags-api.php:522
 msgid "List created successfully."
 msgstr "Liste créée avec succès."
 
-#: includes/api-wp/class-lists-tags-api.php:577
+#: includes/api-wp/class-lists-tags-api.php:589
 msgid "Tag created successfully."
 msgstr "Étiquette créée avec succès."
 
-#: includes/api-wp/class-queue-rest-controller.php:573
+#: includes/api-wp/class-queue-rest-controller.php:578
 msgid "Request queued for immediate retry."
 msgstr "Demande mise en file d'attente pour une nouvelle tentative immédiate."
 
-#. translators: %d is the number of requests processed.
-#: includes/api-wp/class-queue-rest-controller.php:697
-#, php-format
-msgid "Processed %d requests."
-msgstr "Traitement de %d demandes."
-
-#: includes/api-wp/class-rest-controller.php:112
+#: includes/api-wp/class-rest-controller.php:173
 msgid "Authorization header is required."
 msgstr "L'en-tête d'autorisation est requis."
 
-#: includes/api-wp/class-rest-controller.php:121
+#: includes/api-wp/class-rest-controller.php:182
 msgid "Invalid authorization header format. Expected: Bearer {token}"
 msgstr "Format d'en-tête d'autorisation invalide. Attendu : Bearer {token}"
 
-#: includes/api-wp/class-rest-controller.php:135
+#: includes/api-wp/class-rest-controller.php:196
 msgid "No active connection found."
 msgstr "Aucune connexion active trouvée."
 
-#: includes/api-wp/class-rest-controller.php:144
+#: includes/api-wp/class-rest-controller.php:205
 msgid "Invalid bearer token."
 msgstr "Jeton bearer invalide."
 
-#: includes/api-wp/class-rest-controller.php:165
+#: includes/api-wp/class-rest-controller.php:329
 msgid "Successfully disconnected from SureContact."
 msgstr "Déconnexion réussie de SureContact."
 
-#: includes/api-wp/class-rest-controller.php:190
+#: includes/api-wp/class-rest-controller.php:354
 msgid "Workspace UUID does not match."
 msgstr "L'UUID de l'espace de travail ne correspond pas."
 
-#: includes/api-wp/class-rest-controller.php:200
+#: includes/api-wp/class-rest-controller.php:364
 msgid "Connection successfully disconnected by SaaS platform."
 msgstr "Connexion déconnectée avec succès par la plateforme SaaS."
 
@@ -899,7 +845,7 @@ msgid "Suffix"
 msgstr "Suffixe"
 
 #: includes/class-field-mapper.php:308
-#: includes/integrations/class-fluentcrm-integration.php:154
+#: includes/integrations/class-fluentcrm-integration.php:243
 msgid "Timezone"
 msgstr "Fuseau horaire"
 
@@ -927,48 +873,48 @@ msgstr "Clés de champ personnalisé (ajoutées manuellement)"
 msgid "Additional wp_usermeta Table Fields"
 msgstr "Champs supplémentaires de la table wp_usermeta"
 
-#: includes/class-field-mapper.php:867
+#: includes/class-field-mapper.php:872
 msgid "Never"
 msgstr "Jamais"
 
 #. translators: %s: human readable time difference
-#: includes/class-field-mapper.php:872
+#: includes/class-field-mapper.php:877
 #, php-format
 msgid "%s ago"
 msgstr "%s il y a"
 
 #. translators: %1$s: provided slug, %2$s: comma-separated valid slugs
-#: includes/class-integrations-loader.php:827
+#: includes/class-integrations-loader.php:834
 #, php-format
 msgid "Integration not found: \"%1$s\". Available integrations: %2$s"
 msgstr "Intégration non trouvée : \"%1$s\". Intégrations disponibles : %2$s"
 
 #. translators: %1$s: provided item type, %2$s: comma-separated valid types
-#: includes/class-integrations-loader.php:852
+#: includes/class-integrations-loader.php:859
 #, php-format
 msgid "Invalid item type \"%1$s\". Valid types: %2$s"
 msgstr "Type d'élément invalide \"%1$s\". Types valides : %2$s"
 
 #. translators: %1$s: provided item ID, %2$s: item type
-#: includes/class-integrations-loader.php:872
+#: includes/class-integrations-loader.php:879
 #, php-format
 msgid "Item ID \"%1$s\" not found for item type \"%2$s\"."
 msgstr "ID d'élément \"%1$s\" non trouvé pour le type d'élément \"%2$s\"."
 
 #. translators: %1$s: provided event, %2$s: item type, %3$s: comma-separated valid events
-#: includes/class-integrations-loader.php:892
+#: includes/class-integrations-loader.php:899
 #, php-format
 msgid "Invalid event \"%1$s\" for item type \"%2$s\". Valid events: %3$s"
 msgstr "Événement invalide \"%1$s\" pour le type d'élément \"%2$s\". Événements valides : %3$s"
 
 #. translators: %d: HTTP status code
-#: includes/class-saas-client.php:476
+#: includes/class-saas-client.php:556
 #, php-format
 msgid "Request failed (error %d). Please try again."
 msgstr "La requête a échoué (erreur %d). Veuillez réessayer."
 
 #: includes/integrations/class-base-integration.php:1164
-#: includes/integrations/class-fluentcrm-integration.php:245
+#: includes/integrations/class-fluentcrm-integration.php:338
 msgid "Add to Lists"
 msgstr "Ajouter aux listes"
 
@@ -977,7 +923,7 @@ msgid "Select lists to add contacts to"
 msgstr "Sélectionnez les listes pour ajouter des contacts"
 
 #: includes/integrations/class-base-integration.php:1170
-#: includes/integrations/class-fluentcrm-integration.php:251
+#: includes/integrations/class-fluentcrm-integration.php:344
 msgid "Add Tags"
 msgstr "Ajouter des étiquettes"
 
@@ -1053,89 +999,91 @@ msgstr "Downsell"
 msgid "Order Bump"
 msgstr "Commande additionnelle"
 
-#: includes/integrations/class-cartflows-integration.php:182
+#: includes/integrations/class-cartflows-integration.php:186
 msgid "CartFlows Pro"
 msgstr "CartFlows Pro"
 
-#: includes/integrations/class-cartflows-integration.php:216
+#: includes/integrations/class-cartflows-integration.php:221
 msgid "Email will be identified from: 1) URL parameter (billing_email, email), 2) CartFlows Pro session, 3) WooCommerce customer data, 4) Logged-in user. If no email can be identified, this rule will not trigger."
 msgstr "L'email sera identifié à partir de : 1) paramètre URL (billing_email, email), 2) session CartFlows Pro, 3) données client WooCommerce, 4) utilisateur connecté. Si aucun email ne peut être identifié, cette règle ne se déclenchera pas."
 
-#: includes/integrations/class-cartflows-integration.php:223
+#: includes/integrations/class-cartflows-integration.php:228
 msgid "Started"
 msgstr "Débuté"
 
-#: includes/integrations/class-cartflows-integration.php:228
+#: includes/integrations/class-cartflows-integration.php:233
 #: src/screens/sync-contacts/JobHistory.jsx:15
 msgid "Completed"
 msgstr "Terminé"
 
-#: includes/integrations/class-cartflows-integration.php:236
-#: includes/integrations/class-cartflows-integration.php:248
+#: includes/integrations/class-cartflows-integration.php:241
+#: includes/integrations/class-cartflows-integration.php:253
+#: includes/integrations/class-cartflows-integration.php:273
 msgid "Accepted"
 msgstr "Accepté"
 
-#: includes/integrations/class-cartflows-integration.php:240
-#: includes/integrations/class-cartflows-integration.php:252
+#: includes/integrations/class-cartflows-integration.php:245
+#: includes/integrations/class-cartflows-integration.php:257
 msgid "Rejected"
 msgstr "Rejeté"
 
-#: includes/integrations/class-cartflows-integration.php:260
+#: includes/integrations/class-cartflows-integration.php:265
 msgid "Added"
 msgstr "Ajouté"
 
-#: includes/integrations/class-cartflows-integration.php:1334
-#: includes/integrations/class-cartflows-integration.php:1520
+#: includes/integrations/class-cartflows-integration.php:1690
+#: includes/integrations/class-cartflows-integration.php:1941
 msgid "All Steps"
 msgstr "Toutes les étapes"
 
-#: includes/integrations/class-cartflows-integration.php:1340
-#: includes/integrations/class-cartflows-integration.php:1536
+#: includes/integrations/class-cartflows-integration.php:1696
+#: includes/integrations/class-cartflows-integration.php:1959
 msgid "All Landing Pages"
 msgstr "Toutes les pages de destination"
 
-#: includes/integrations/class-cartflows-integration.php:1346
-#: includes/integrations/class-cartflows-integration.php:1538
+#: includes/integrations/class-cartflows-integration.php:1702
+#: includes/integrations/class-cartflows-integration.php:1961
 msgid "All Checkouts"
 msgstr "Tous les paiements"
 
-#: includes/integrations/class-cartflows-integration.php:1352
-#: includes/integrations/class-cartflows-integration.php:1540
+#: includes/integrations/class-cartflows-integration.php:1708
+#: includes/integrations/class-cartflows-integration.php:1963
 msgid "All Thank You Pages"
 msgstr "Toutes les pages de remerciement"
 
-#: includes/integrations/class-cartflows-integration.php:1390
+#: includes/integrations/class-cartflows-integration.php:1752
 msgid "Untitled Step"
 msgstr "Étape sans titre"
 
-#: includes/integrations/class-cartflows-integration.php:1418
-#: includes/integrations/class-cartflows-integration.php:1522
+#: includes/integrations/class-cartflows-integration.php:1780
+#: includes/integrations/class-cartflows-integration.php:1943
 msgid "All Upsells"
 msgstr "Tous les Upsells"
 
-#: includes/integrations/class-cartflows-integration.php:1443
-#: includes/integrations/class-cartflows-integration.php:1524
+#: includes/integrations/class-cartflows-integration.php:1805
+#: includes/integrations/class-cartflows-integration.php:1945
 msgid "All Downsells"
 msgstr "Tous les Downsells"
 
-#: includes/integrations/class-cartflows-integration.php:1468
-#: includes/integrations/class-cartflows-integration.php:1526
+#: includes/integrations/class-cartflows-integration.php:1830
+#: includes/integrations/class-cartflows-integration.php:1947
 msgid "All Order Bumps"
 msgstr "Tous les Order Bumps"
 
-#: includes/integrations/class-cartflows-integration.php:1488
-#: includes/integrations/class-cartflows-integration.php:1595
+#: includes/integrations/class-cartflows-integration.php:1850
+#: includes/integrations/class-cartflows-integration.php:2048
 msgid "Untitled Order Bump"
 msgstr "Order Bump sans titre"
 
-#: includes/integrations/class-cartflows-integration.php:1558
+#: includes/integrations/class-cartflows-integration.php:1988
 msgid "Untitled"
 msgstr "Sans titre"
 
 #: includes/integrations/class-contact-form-7-integration.php:87
-#: includes/integrations/class-elementor-forms-integration.php:274
+#: includes/integrations/class-elementor-forms-integration.php:277
 #: includes/integrations/class-fluent-forms-integration.php:66
-#: includes/integrations/class-gravity-forms-integration.php:116
+#: includes/integrations/class-gravity-forms-integration.php:130
+#: includes/integrations/class-jetformbuilder-integration.php:90
 #: includes/integrations/class-sureforms-integration.php:85
 #: includes/integrations/class-wpforms-integration.php:80
 msgid "Form"
@@ -1143,9 +1091,10 @@ msgstr "Formulaire"
 
 #: includes/integrations/class-contact-form-7-integration.php:106
 #: includes/integrations/class-convert-pro-integration.php:138
-#: includes/integrations/class-elementor-forms-integration.php:293
+#: includes/integrations/class-elementor-forms-integration.php:296
 #: includes/integrations/class-fluent-forms-integration.php:85
-#: includes/integrations/class-gravity-forms-integration.php:135
+#: includes/integrations/class-gravity-forms-integration.php:149
+#: includes/integrations/class-jetformbuilder-integration.php:109
 #: includes/integrations/class-sureforms-integration.php:104
 #: includes/integrations/class-wpforms-integration.php:99
 msgid "Submission"
@@ -1153,18 +1102,20 @@ msgstr "Soumission"
 
 #: includes/integrations/class-contact-form-7-integration.php:132
 #: includes/integrations/class-convert-pro-integration.php:159
-#: includes/integrations/class-elementor-forms-integration.php:316
+#: includes/integrations/class-elementor-forms-integration.php:319
 #: includes/integrations/class-fluent-forms-integration.php:109
-#: includes/integrations/class-gravity-forms-integration.php:161
+#: includes/integrations/class-gravity-forms-integration.php:175
+#: includes/integrations/class-jetformbuilder-integration.php:131
 #: includes/integrations/class-sureforms-integration.php:130
 #: includes/integrations/class-wpforms-integration.php:125
 msgid "Field Mapping"
 msgstr "Mappage des champs"
 
 #: includes/integrations/class-contact-form-7-integration.php:133
-#: includes/integrations/class-elementor-forms-integration.php:317
+#: includes/integrations/class-elementor-forms-integration.php:320
 #: includes/integrations/class-fluent-forms-integration.php:110
-#: includes/integrations/class-gravity-forms-integration.php:162
+#: includes/integrations/class-gravity-forms-integration.php:176
+#: includes/integrations/class-jetformbuilder-integration.php:132
 #: includes/integrations/class-sureforms-integration.php:131
 #: includes/integrations/class-wpforms-integration.php:126
 msgid "Map form fields to CRM fields. At minimum, you should map the email field."
@@ -1210,56 +1161,56 @@ msgid "Create contacts in SureContact for guest checkout customers (customers wi
 msgstr "Créer des contacts dans SureContact pour les clients de passage (clients sans comptes WordPress)"
 
 #. translators: %s is the payment status label.
-#: includes/integrations/class-edd-integration.php:119
+#: includes/integrations/class-edd-integration.php:159
 #, php-format
 msgid "Lists for \"%s\" Status"
 msgstr "Listes pour le statut \"%s\""
 
 #. translators: %s is the payment status label in lowercase.
-#: includes/integrations/class-edd-integration.php:121
+#: includes/integrations/class-edd-integration.php:161
 #, php-format
 msgid "Additional lists to add contacts to when payment status is %s (combined with default lists above)"
 msgstr "Listes supplémentaires pour ajouter des contacts lorsque le statut de paiement est %s (combiné avec les listes par défaut ci-dessus)"
 
-#: includes/integrations/class-edd-integration.php:141
+#: includes/integrations/class-edd-integration.php:181
 msgid "Download"
 msgstr "Télécharger"
 
-#: includes/integrations/class-edd-integration.php:145
+#: includes/integrations/class-edd-integration.php:185
 msgid "Discount Code"
 msgstr "Code de réduction"
 
-#: includes/integrations/class-edd-integration.php:164
+#: includes/integrations/class-edd-integration.php:204
 #: includes/integrations/class-surecart-integration.php:375
-#: includes/integrations/class-woocommerce-integration.php:388
+#: includes/integrations/class-woocommerce-integration.php:428
 msgid "Purchase"
 msgstr "Achat"
 
-#: includes/integrations/class-edd-integration.php:168
+#: includes/integrations/class-edd-integration.php:208
 #: includes/integrations/class-surecart-integration.php:383
-#: includes/integrations/class-woocommerce-integration.php:392
+#: includes/integrations/class-woocommerce-integration.php:432
 msgid "Refund"
 msgstr "Remboursement"
 
-#: includes/integrations/class-edd-integration.php:176
+#: includes/integrations/class-edd-integration.php:216
 msgid "Discount Applied"
 msgstr "Remise appliquée"
 
-#: includes/integrations/class-edd-integration.php:217
-#: includes/integrations/class-edd-integration.php:339
+#: includes/integrations/class-edd-integration.php:257
+#: includes/integrations/class-edd-integration.php:379
 msgid "All Downloads"
 msgstr "Tous les téléchargements"
 
-#: includes/integrations/class-edd-integration.php:279
-#: includes/integrations/class-edd-integration.php:342
+#: includes/integrations/class-edd-integration.php:319
+#: includes/integrations/class-edd-integration.php:382
 msgid "All Discount Codes"
 msgstr "Tous les codes de réduction"
 
-#: includes/integrations/class-edd-integration.php:1018
+#: includes/integrations/class-edd-integration.php:1066
 msgid "Full refund"
 msgstr "Remboursement complet"
 
-#: includes/integrations/class-edd-integration.php:1018
+#: includes/integrations/class-edd-integration.php:1066
 msgid "Partial refund"
 msgstr "Remboursement partiel"
 
@@ -1281,14 +1232,14 @@ msgstr "Aucune commande trouvée à synchroniser"
 
 #: includes/integrations/class-edd-order-sync.php:487
 #: includes/integrations/class-latepoint-integration.php:704
-#: includes/integrations/class-surecart-integration.php:1457
+#: includes/integrations/class-surecart-integration.php:1479
 #: includes/integrations/class-surecart-order-sync.php:528
 #: includes/integrations/class-woocommerce-order-sync.php:481
 msgid "Order cancelled"
 msgstr "Commande annulée"
 
 #: includes/integrations/class-edd-order-sync.php:557
-#: includes/integrations/class-surecart-integration.php:1293
+#: includes/integrations/class-surecart-integration.php:1315
 #: includes/integrations/class-surecart-order-sync.php:598
 #: includes/integrations/class-woocommerce-order-sync.php:539
 msgid "Order refunded"
@@ -1302,156 +1253,156 @@ msgstr "Contacts"
 msgid "Synchronize all subscribed FluentCRM contacts to SureContact"
 msgstr "Synchronisez tous les contacts FluentCRM abonnés à SureContact"
 
-#: includes/integrations/class-fluentcrm-integration.php:91
+#: includes/integrations/class-fluentcrm-integration.php:176
 msgid "FluentCRM"
 msgstr "FluentCRM"
 
-#: includes/integrations/class-fluentcrm-integration.php:110
+#: includes/integrations/class-fluentcrm-integration.php:199
 msgid "Name Prefix"
 msgstr "Préfixe de nom"
 
-#: includes/integrations/class-fluentcrm-integration.php:122
+#: includes/integrations/class-fluentcrm-integration.php:211
 #: src/components/CreateCustomFieldForm.jsx:19
 msgid "Email"
 msgstr "Email"
 
-#: includes/integrations/class-fluentcrm-integration.php:126
+#: includes/integrations/class-fluentcrm-integration.php:215
 #: includes/integrations/class-latepoint-integration.php:125
 #: includes/integrations/class-surecart-integration.php:140
 msgid "Phone"
 msgstr "Téléphone"
 
-#: includes/integrations/class-fluentcrm-integration.php:130
+#: includes/integrations/class-fluentcrm-integration.php:219
 #: includes/integrations/class-surecart-integration.php:116
 msgid "Address Line 1"
 msgstr "Adresse ligne 1"
 
-#: includes/integrations/class-fluentcrm-integration.php:134
+#: includes/integrations/class-fluentcrm-integration.php:223
 #: includes/integrations/class-surecart-integration.php:120
 msgid "Address Line 2"
 msgstr "Adresse ligne 2"
 
-#: includes/integrations/class-fluentcrm-integration.php:138
+#: includes/integrations/class-fluentcrm-integration.php:227
 #: includes/integrations/class-surecart-integration.php:124
 msgid "City"
 msgstr "Ville"
 
-#: includes/integrations/class-fluentcrm-integration.php:142
+#: includes/integrations/class-fluentcrm-integration.php:231
 #: includes/integrations/class-surecart-integration.php:128
 msgid "State"
 msgstr "État"
 
-#: includes/integrations/class-fluentcrm-integration.php:146
+#: includes/integrations/class-fluentcrm-integration.php:235
 #: includes/integrations/class-surecart-integration.php:136
 msgid "Postal Code"
 msgstr "Code postal"
 
-#: includes/integrations/class-fluentcrm-integration.php:150
+#: includes/integrations/class-fluentcrm-integration.php:239
 #: includes/integrations/class-surecart-integration.php:132
 msgid "Country"
 msgstr "Pays"
 
-#: includes/integrations/class-fluentcrm-integration.php:158
+#: includes/integrations/class-fluentcrm-integration.php:247
 msgid "Date of Birth"
 msgstr "Date de naissance"
 
-#: includes/integrations/class-fluentcrm-integration.php:162
+#: includes/integrations/class-fluentcrm-integration.php:251
 msgid "Contact Status"
 msgstr "Statut du contact"
 
-#: includes/integrations/class-fluentcrm-integration.php:166
+#: includes/integrations/class-fluentcrm-integration.php:255
 msgid "Contact Type"
 msgstr "Type de contact"
 
-#: includes/integrations/class-fluentcrm-integration.php:170
+#: includes/integrations/class-fluentcrm-integration.php:259
 msgid "Source"
 msgstr "Source"
 
-#: includes/integrations/class-fluentcrm-integration.php:174
+#: includes/integrations/class-fluentcrm-integration.php:263
 msgid "Life Time Value"
 msgstr "Valeur à vie"
 
-#: includes/integrations/class-fluentcrm-integration.php:178
+#: includes/integrations/class-fluentcrm-integration.php:267
 msgid "Total Points"
 msgstr "Total des points"
 
-#: includes/integrations/class-fluentcrm-integration.php:182
+#: includes/integrations/class-fluentcrm-integration.php:271
 msgid "Contact Created Date"
 msgstr "Date de création du contact"
 
-#: includes/integrations/class-fluentcrm-integration.php:186
+#: includes/integrations/class-fluentcrm-integration.php:275
 msgid "Last Activity Date"
 msgstr "Date de la dernière activité"
 
-#: includes/integrations/class-fluentcrm-integration.php:190
+#: includes/integrations/class-fluentcrm-integration.php:279
 msgid "Contact Updated Date"
 msgstr "Date de mise à jour du contact"
 
-#: includes/integrations/class-fluentcrm-integration.php:215
+#: includes/integrations/class-fluentcrm-integration.php:308
 msgid "Enable Real-time Sync"
 msgstr "Activer la synchronisation en temps réel"
 
-#: includes/integrations/class-fluentcrm-integration.php:216
+#: includes/integrations/class-fluentcrm-integration.php:309
 msgid "Automatically sync FluentCRM contacts when they are created or updated"
 msgstr "Synchroniser automatiquement les contacts FluentCRM lorsqu'ils sont créés ou mis à jour"
 
-#: includes/integrations/class-fluentcrm-integration.php:221
+#: includes/integrations/class-fluentcrm-integration.php:314
 msgid "Sync Only Subscribed Contacts"
 msgstr "Synchroniser uniquement les contacts abonnés"
 
-#: includes/integrations/class-fluentcrm-integration.php:222
+#: includes/integrations/class-fluentcrm-integration.php:315
 msgid "Only sync contacts with \"subscribed\" status (recommended)"
 msgstr "Synchroniser uniquement les contacts avec le statut \"abonné\" (recommandé)"
 
-#: includes/integrations/class-fluentcrm-integration.php:227
+#: includes/integrations/class-fluentcrm-integration.php:320
 msgid "Sync Lists"
 msgstr "Listes de synchronisation"
 
-#: includes/integrations/class-fluentcrm-integration.php:228
+#: includes/integrations/class-fluentcrm-integration.php:321
 msgid "Sync FluentCRM lists assigned to each contact (applies to both real-time and bulk sync)"
 msgstr "Synchroniser les listes FluentCRM assignées à chaque contact (s'applique à la fois à la synchronisation en temps réel et à la synchronisation en masse)"
 
-#: includes/integrations/class-fluentcrm-integration.php:233
+#: includes/integrations/class-fluentcrm-integration.php:326
 msgid "Sync Tags"
 msgstr "Synchroniser les étiquettes"
 
-#: includes/integrations/class-fluentcrm-integration.php:234
+#: includes/integrations/class-fluentcrm-integration.php:327
 msgid "Sync FluentCRM tags assigned to each contact (applies to both real-time and bulk sync)"
 msgstr "Synchroniser les étiquettes FluentCRM assignées à chaque contact (s'applique à la synchronisation en temps réel et en masse)"
 
-#: includes/integrations/class-fluentcrm-integration.php:239
+#: includes/integrations/class-fluentcrm-integration.php:332
 msgid "Sync Custom Fields"
 msgstr "Synchroniser les champs personnalisés"
 
-#: includes/integrations/class-fluentcrm-integration.php:240
+#: includes/integrations/class-fluentcrm-integration.php:333
 msgid "Sync FluentCRM custom fields from each contact (applies to both real-time and bulk sync)"
 msgstr "Synchroniser les champs personnalisés FluentCRM de chaque contact (s'applique à la synchronisation en temps réel et en masse)"
 
-#: includes/integrations/class-fluentcrm-integration.php:246
+#: includes/integrations/class-fluentcrm-integration.php:339
 msgid "Select lists to add to ALL FluentCRM contacts when synced (in addition to their individual lists)"
 msgstr "Sélectionner les listes à ajouter à TOUS les contacts FluentCRM lors de la synchronisation (en plus de leurs listes individuelles)"
 
-#: includes/integrations/class-fluentcrm-integration.php:252
+#: includes/integrations/class-fluentcrm-integration.php:345
 msgid "Select tags to add to ALL FluentCRM contacts when synced (in addition to their individual tags)"
 msgstr "Sélectionner les étiquettes à ajouter à TOUS les contacts FluentCRM lors de la synchronisation (en plus de leurs étiquettes individuelles)"
 
-#: includes/integrations/class-gravity-forms-integration.php:685
+#: includes/integrations/class-gravity-forms-integration.php:706
 msgid "Synced to SureContact:"
 msgstr "Synchronisé vers SureContact :"
 
-#: includes/integrations/class-gravity-forms-integration.php:688
+#: includes/integrations/class-gravity-forms-integration.php:709
 msgid "Yes"
 msgstr "Oui"
 
-#: includes/integrations/class-gravity-forms-integration.php:691
+#: includes/integrations/class-gravity-forms-integration.php:712
 msgid "No"
 msgstr "Non"
 
-#: includes/integrations/class-gravity-forms-integration.php:700
+#: includes/integrations/class-gravity-forms-integration.php:721
 msgid "Contact ID:"
 msgstr "Identifiant du contact :"
 
-#: includes/integrations/class-gravity-forms-integration.php:717
+#: includes/integrations/class-gravity-forms-integration.php:738
 msgid "Process SureContact actions again"
 msgstr "Traiter à nouveau les actions SureContact"
 
@@ -1547,7 +1498,7 @@ msgstr "Emplacement"
 
 #: includes/integrations/class-latepoint-integration.php:315
 #: includes/integrations/class-surecart-integration.php:356
-#: includes/integrations/class-woocommerce-integration.php:368
+#: includes/integrations/class-woocommerce-integration.php:408
 msgid "Coupon"
 msgstr "Coupon"
 
@@ -1577,7 +1528,7 @@ msgstr "Non-présentation à la réservation"
 
 #: includes/integrations/class-latepoint-integration.php:366
 #: includes/integrations/class-surecart-integration.php:391
-#: includes/integrations/class-woocommerce-integration.php:404
+#: includes/integrations/class-woocommerce-integration.php:444
 msgid "Applied"
 msgstr "Appliqué"
 
@@ -1620,10 +1571,10 @@ msgstr "Emplacement sans titre"
 
 #: includes/integrations/class-latepoint-integration.php:1610
 #: includes/integrations/class-latepoint-integration.php:1664
-#: includes/integrations/class-surecart-integration.php:2114
-#: includes/integrations/class-surecart-integration.php:2166
-#: includes/integrations/class-woocommerce-integration.php:2015
-#: includes/integrations/class-woocommerce-integration.php:2061
+#: includes/integrations/class-surecart-integration.php:2211
+#: includes/integrations/class-surecart-integration.php:2263
+#: includes/integrations/class-woocommerce-integration.php:2063
+#: includes/integrations/class-woocommerce-integration.php:2109
 msgid "All Coupons"
 msgstr "Tous les coupons"
 
@@ -1689,19 +1640,19 @@ msgid "Send cancellation information to SureContact when orders or subscriptions
 msgstr "Envoyer des informations d'annulation à SureContact lorsque des commandes ou des abonnements sont annulés"
 
 #: includes/integrations/class-surecart-integration.php:352
-#: includes/integrations/class-woocommerce-integration.php:360
+#: includes/integrations/class-woocommerce-integration.php:400
 msgid "Product"
 msgstr "Produit"
 
 #: includes/integrations/class-surecart-integration.php:379
-#: includes/integrations/class-woocommerce-integration.php:396
+#: includes/integrations/class-woocommerce-integration.php:436
 msgid "Cancellation"
 msgstr "Annulation"
 
-#: includes/integrations/class-surecart-integration.php:1977
-#: includes/integrations/class-surecart-integration.php:2164
-#: includes/integrations/class-woocommerce-integration.php:1875
-#: includes/integrations/class-woocommerce-integration.php:2057
+#: includes/integrations/class-surecart-integration.php:2018
+#: includes/integrations/class-surecart-integration.php:2261
+#: includes/integrations/class-woocommerce-integration.php:1923
+#: includes/integrations/class-woocommerce-integration.php:2105
 msgid "All Products"
 msgstr "Tous les produits"
 
@@ -1767,68 +1718,68 @@ msgstr "Statut d'adhésion"
 msgid "Membership Name"
 msgstr "Nom d'adhésion"
 
-#: includes/integrations/class-suremembers-integration.php:95
+#: includes/integrations/class-suremembers-integration.php:100
 msgid "Active Groups Count"
 msgstr "Nombre de groupes actifs"
 
-#: includes/integrations/class-suremembers-integration.php:100
+#: includes/integrations/class-suremembers-integration.php:105
 msgid "Access Status"
 msgstr "Statut d'accès"
 
-#: includes/integrations/class-suremembers-integration.php:105
+#: includes/integrations/class-suremembers-integration.php:110
 msgid "Access Granted Date"
 msgstr "Date d'accès accordé"
 
-#: includes/integrations/class-suremembers-integration.php:110
+#: includes/integrations/class-suremembers-integration.php:115
 msgid "Access Modified Date"
 msgstr "Date d'accès modifiée"
 
-#: includes/integrations/class-suremembers-integration.php:115
+#: includes/integrations/class-suremembers-integration.php:120
 msgid "Expiration Date"
 msgstr "Date d'expiration"
 
-#: includes/integrations/class-suremembers-integration.php:120
+#: includes/integrations/class-suremembers-integration.php:125
 msgid "Days Until Expiration"
 msgstr "Jours jusqu'à l'expiration"
 
-#: includes/integrations/class-suremembers-integration.php:125
+#: includes/integrations/class-suremembers-integration.php:130
 msgid "Integration Source"
 msgstr "Source d'intégration"
 
-#: includes/integrations/class-suremembers-integration.php:130
+#: includes/integrations/class-suremembers-integration.php:135
 msgid "WooCommerce Order IDs"
 msgstr "IDs de commande WooCommerce"
 
-#: includes/integrations/class-suremembers-integration.php:135
+#: includes/integrations/class-suremembers-integration.php:140
 msgid "Days as Member"
 msgstr "Jours en tant que membre"
 
-#: includes/integrations/class-suremembers-integration.php:140
+#: includes/integrations/class-suremembers-integration.php:145
 msgid "Last Login"
 msgstr "Dernière connexion"
 
-#: includes/integrations/class-suremembers-integration.php:179
+#: includes/integrations/class-suremembers-integration.php:184
 msgid "Membership"
 msgstr "Adhésion"
 
-#: includes/integrations/class-suremembers-integration.php:198
+#: includes/integrations/class-suremembers-integration.php:203
 msgid "Access Granted"
 msgstr "Accès accordé"
 
-#: includes/integrations/class-suremembers-integration.php:202
+#: includes/integrations/class-suremembers-integration.php:207
 msgid "Access Revoked"
 msgstr "Accès révoqué"
 
-#: includes/integrations/class-suremembers-integration.php:206
+#: includes/integrations/class-suremembers-integration.php:211
 msgid "Access Expired"
 msgstr "Accès expiré"
 
-#: includes/integrations/class-suremembers-integration.php:210
+#: includes/integrations/class-suremembers-integration.php:215
 msgid "Member Logged In"
 msgstr "Membre connecté"
 
-#: includes/integrations/class-suremembers-integration.php:988
-#: includes/integrations/class-suremembers-integration.php:1029
+#: includes/integrations/class-suremembers-integration.php:912
+#: includes/integrations/class-suremembers-integration.php:954
 msgid "All Memberships"
 msgstr "Toutes les adhésions"
 
@@ -2013,43 +1964,43 @@ msgid "Apply these tags when a customer leaves a product review"
 msgstr "Appliquer ces étiquettes lorsque le client laisse un avis sur un produit"
 
 #. translators: %s: WooCommerce order status label.
-#: includes/integrations/class-woocommerce-integration.php:330
+#: includes/integrations/class-woocommerce-integration.php:370
 #, php-format
 msgid "Order Status: %s"
 msgstr "Statut de la commande : %s"
 
 #. translators: %s: WooCommerce order status label.
-#: includes/integrations/class-woocommerce-integration.php:334
+#: includes/integrations/class-woocommerce-integration.php:374
 #, php-format
 msgid "Select lists to add contacts to when order status changes to %s."
 msgstr "Sélectionnez les listes pour ajouter des contacts lorsque le statut de la commande change en %s."
 
-#: includes/integrations/class-woocommerce-integration.php:364
+#: includes/integrations/class-woocommerce-integration.php:404
 msgid "Product Category"
 msgstr "Catégorie de produit"
 
-#: includes/integrations/class-woocommerce-integration.php:519
+#: includes/integrations/class-woocommerce-integration.php:567
 msgid "SureContact: Guest customer sync disabled."
 msgstr "SureContact : Synchronisation des clients invités désactivée."
 
-#: includes/integrations/class-woocommerce-integration.php:526
+#: includes/integrations/class-woocommerce-integration.php:574
 msgid "SureContact: Order tracked."
 msgstr "SureContact : Commande suivie."
 
-#: includes/integrations/class-woocommerce-integration.php:597
+#: includes/integrations/class-woocommerce-integration.php:645
 msgid "SureContact: No actions configured, contact not synced."
 msgstr "SureContact : Aucune action configurée, contact non synchronisé."
 
-#: includes/integrations/class-woocommerce-integration.php:621
+#: includes/integrations/class-woocommerce-integration.php:669
 msgid "SureContact: Contact sync failed."
 msgstr "SureContact : Échec de la synchronisation des contacts."
 
-#: includes/integrations/class-woocommerce-integration.php:634
+#: includes/integrations/class-woocommerce-integration.php:682
 msgid "SureContact: Contact synced and lists/tags applied."
 msgstr "SureContact : Contacts synchronisés et listes/tag appliqués."
 
-#: includes/integrations/class-woocommerce-integration.php:1971
-#: includes/integrations/class-woocommerce-integration.php:2059
+#: includes/integrations/class-woocommerce-integration.php:2019
+#: includes/integrations/class-woocommerce-integration.php:2107
 msgid "All Product Categories"
 msgstr "Toutes les catégories de produits"
 
@@ -2057,23 +2008,23 @@ msgstr "Toutes les catégories de produits"
 msgid "Synchronize all WooCommerce orders and revenue data to SureContact"
 msgstr "Synchronisez toutes les commandes WooCommerce et les données de revenus vers SureContact"
 
-#: includes/integrations/class-wordpress-integration.php:782
+#: includes/integrations/class-wordpress-integration.php:786
 msgid "Page"
 msgstr "Page"
 
-#: includes/integrations/class-wordpress-integration.php:786
+#: includes/integrations/class-wordpress-integration.php:790
 msgid "Post"
 msgstr "Article"
 
-#: includes/integrations/class-wordpress-integration.php:804
+#: includes/integrations/class-wordpress-integration.php:808
 msgid "Visited"
 msgstr "Visité"
 
-#: includes/integrations/class-wordpress-integration.php:836
+#: includes/integrations/class-wordpress-integration.php:840
 msgid "All Pages"
 msgstr "Toutes les pages"
 
-#: includes/integrations/class-wordpress-integration.php:873
+#: includes/integrations/class-wordpress-integration.php:877
 msgid "All Posts"
 msgstr "Tous les articles"
 
@@ -2105,23 +2056,23 @@ msgstr "Entrée synchronisée vers SureContact (UUID du contact : %s)"
 msgid "Request queued for retry."
 msgstr "Demande mise en file d'attente pour réessai."
 
-#: includes/traits/class-api-retry.php:397
+#: includes/traits/class-api-retry.php:379
 msgid "Request queued for processing."
 msgstr "Demande mise en file d'attente pour traitement."
 
-#: includes/traits/class-api-retry.php:404
+#: includes/traits/class-api-retry.php:386
 msgid "Request completed successfully."
 msgstr "Demande complétée avec succès."
 
-#: surecontact.php:409
+#: surecontact.php:456
 msgid "Access Dashboard"
 msgstr "Accéder au tableau de bord"
 
-#: surecontact.php:410
+#: surecontact.php:457
 msgid "Get Started Now"
 msgstr "Commencer maintenant"
 
-#: surecontact.php:441
+#: surecontact.php:488
 msgid "Rate our plugin"
 msgstr "Évaluez notre plugin"
 
@@ -2171,22 +2122,24 @@ msgstr "Échec de la création du champ personnalisé."
 
 #: src/api/integrations.js:38
 #: src/api/integrations.js:70
-#: src/api/integrations.js:107
-#: src/api/integrations.js:139
-#: src/api/integrations.js:177
-#: src/api/integrations.js:210
-#: src/api/integrations.js:252
-#: src/api/integrations.js:305
-#: src/api/integrations.js:360
-#: src/api/integrations.js:430
-#: src/api/integrations.js:485
-#: src/api/integrations.js:538
-#: src/api/integrations.js:578
-#: src/api/integrations.js:610
+#: src/api/integrations.js:105
+#: src/api/integrations.js:142
+#: src/api/integrations.js:174
+#: src/api/integrations.js:212
+#: src/api/integrations.js:245
+#: src/api/integrations.js:287
+#: src/api/integrations.js:340
+#: src/api/integrations.js:395
+#: src/api/integrations.js:465
+#: src/api/integrations.js:520
+#: src/api/integrations.js:573
+#: src/api/integrations.js:613
+#: src/api/integrations.js:645
 msgid "Invalid response from server"
 msgstr "Réponse invalide du serveur"
 
 #: src/api/integrations.js:42
+#: src/api/integrations.js:109
 msgid "Failed to fetch integrations"
 msgstr "Échec de la récupération des intégrations"
 
@@ -2194,52 +2147,52 @@ msgstr "Échec de la récupération des intégrations"
 msgid "Failed to fetch global settings integrations"
 msgstr "Échec de la récupération des intégrations des paramètres globaux"
 
-#: src/api/integrations.js:111
+#: src/api/integrations.js:146
 #: src/hooks/useIntegrations.js:150
 msgid "Failed to toggle integration"
 msgstr "Échec de l'activation de l'intégration"
 
-#: src/api/integrations.js:144
+#: src/api/integrations.js:179
 msgid "Failed to fetch integration settings"
 msgstr "Échec de la récupération des paramètres d'intégration"
 
-#: src/api/integrations.js:182
+#: src/api/integrations.js:217
 msgid "Failed to save integration settings"
 msgstr "Échec de l'enregistrement des paramètres d'intégration"
 
-#: src/api/integrations.js:215
+#: src/api/integrations.js:250
 msgid "Failed to fetch integration metadata"
 msgstr "Échec de la récupération des métadonnées d'intégration"
 
-#: src/api/integrations.js:257
+#: src/api/integrations.js:292
 msgid "Failed to fetch integration items"
 msgstr "Échec de la récupération des éléments d'intégration"
 
-#: src/api/integrations.js:309
+#: src/api/integrations.js:344
 msgid "Failed to fetch item fields"
 msgstr "Échec de la récupération des champs d'éléments"
 
-#: src/api/integrations.js:365
+#: src/api/integrations.js:400
 msgid "Failed to fetch integration configuration"
 msgstr "Échec de la récupération de la configuration d'intégration"
 
-#: src/api/integrations.js:435
+#: src/api/integrations.js:470
 msgid "Failed to save integration configuration"
 msgstr "Échec de l'enregistrement de la configuration d'intégration"
 
-#: src/api/integrations.js:490
+#: src/api/integrations.js:525
 msgid "Failed to update integration status"
 msgstr "Échec de la mise à jour du statut d'intégration"
 
-#: src/api/integrations.js:543
+#: src/api/integrations.js:578
 msgid "Failed to delete integration configuration"
 msgstr "Échec de la suppression de la configuration d'intégration"
 
-#: src/api/integrations.js:583
+#: src/api/integrations.js:618
 msgid "Failed to activate plugin"
 msgstr "Échec de l'activation du plugin"
 
-#: src/api/integrations.js:615
+#: src/api/integrations.js:650
 msgid "Failed to fetch configured integrations"
 msgstr "Échec de la récupération des intégrations configurées"
 
@@ -2465,10 +2418,11 @@ msgstr "Ajouter une option"
 #: src/components/CreateCustomFieldForm.jsx:342
 #: src/screens/contact-fields/components/CreateCustomFieldDialog.jsx:65
 #: src/screens/dashboard/Dashboard.jsx:306
-#: src/screens/integrations/IntegrationSettings.jsx:539
+#: src/screens/integrations/IntegrationSettings.jsx:553
 #: src/screens/integrations/IntegrationsTableCard.jsx:2094
-#: src/screens/logs/components/LogsHeader.jsx:90
-#: src/screens/logs/components/LogsTable.jsx:526
+#: src/screens/logs/components/LogsHeader.jsx:92
+#: src/screens/logs/components/LogsHeader.jsx:130
+#: src/screens/logs/components/LogsTable.jsx:534
 #: src/screens/sync-contacts/IntegrationSyncCard.jsx:48
 msgid "Cancel"
 msgstr "Annuler"
@@ -2601,12 +2555,10 @@ msgstr "Rejoindre la communauté"
 msgid "Rate Us"
 msgstr "Évaluez-nous"
 
-#: src/components/AuthPage.jsx:139
 #: src/screens/dashboard/Dashboard.jsx:106
 msgid "Welcome to SureContact"
 msgstr "Bienvenue chez SureContact"
 
-#: src/components/AuthPage.jsx:144
 #: src/screens/dashboard/Dashboard.jsx:111
 msgid "SureContact is a comprehensive CRM platform that helps you manage customer relationships and data effectively. Connect your WordPress site to centralize customer information, track interactions, and streamline your business operations."
 msgstr "SureContact est une plateforme CRM complète qui vous aide à gérer efficacement les relations et les données clients. Connectez votre site WordPress pour centraliser les informations clients, suivre les interactions et optimiser vos opérations commerciales."
@@ -2686,11 +2638,13 @@ msgstr "Les pages de remerciement ne prennent en charge que l'événement \"Dém
 msgid "Creating…"
 msgstr "Création…"
 
-#: src/api/queue.js:43
+#: src/api/queue.js:49
+#: src/api/queue.js:54
 msgid "Failed to fetch logs"
 msgstr "Échec de la récupération des journaux"
 
-#: src/api/queue.js:56
+#: src/api/queue.js:70
+#: src/api/queue.js:75
 msgid "Failed to fetch stats"
 msgstr "Échec de la récupération des statistiques"
 
@@ -2702,33 +2656,27 @@ msgstr "Type de synchronisation invalide"
 msgid "Failed to start sync"
 msgstr "Échec du démarrage de la synchronisation"
 
-#: includes/api-wp/class-bulk-sync-api.php:450
+#: includes/api-wp/class-bulk-sync-api.php:455
 msgid "Job not found"
 msgstr "Tâche introuvable"
 
-#: includes/api-wp/class-bulk-sync-api.php:474
+#: includes/api-wp/class-bulk-sync-api.php:479
 msgid "Job is already in a terminal state and cannot be cancelled"
 msgstr "La tâche est déjà dans un état final et ne peut pas être annulée"
 
-#. translators: %1$d: total stopped actions, %2$d: pending actions count, %3$d: running actions count
-#: includes/api-wp/class-bulk-sync-api.php:519
-#, php-format
-msgid "Job cancelled successfully. Stopped %1$d action(s) (%2$d pending, %3$d running)."
-msgstr "Tâche annulée avec succès. %1$d action(s) arrêtée(s) (%2$d en attente, %3$d en cours)."
-
-#: includes/class-saas-client.php:171
-#: includes/class-saas-client.php:233
-#: includes/class-saas-client.php:296
-#: includes/class-saas-client.php:411
+#: includes/class-saas-client.php:247
+#: includes/class-saas-client.php:310
+#: includes/class-saas-client.php:374
+#: includes/class-saas-client.php:491
 msgid "Invalid JSON response from API"
 msgstr "Réponse JSON invalide de l'API"
 
 #. translators: %s: exception message
-#: includes/class-saas-client.php:179
-#: includes/class-saas-client.php:241
-#: includes/class-saas-client.php:304
-#: includes/class-saas-client.php:356
-#: includes/class-saas-client.php:419
+#: includes/class-saas-client.php:255
+#: includes/class-saas-client.php:318
+#: includes/class-saas-client.php:382
+#: includes/class-saas-client.php:435
+#: includes/class-saas-client.php:499
 #, php-format
 msgid "Exception during API request: %s"
 msgstr "Exception lors de la requête API : %s"
@@ -2800,7 +2748,7 @@ msgstr "Mise en file d'attente impossible : champ requis « %s » manquant"
 msgid "Failed to queue request for retry"
 msgstr "Échec de la mise en file d'attente pour nouvelle tentative"
 
-#: includes/traits/class-api-retry.php:355
+#: includes/traits/class-api-retry.php:337
 msgid "Each call must have \"callback\" and \"queue_data\" keys"
 msgstr "Chaque appel doit contenir les clés « callback » et « queue_data »"
 
@@ -2816,122 +2764,69 @@ msgstr "Synchronisation des listes, tags et champs personnalisés…"
 msgid "Custom fields synced successfully!"
 msgstr "Champs personnalisés synchronisés avec succès !"
 
-#: src/components/AuthPage.jsx:115
+#: src/components/AuthPage.jsx:212
 msgid "Authentication failed"
 msgstr "Échec de l'authentification"
 
-#: src/components/AuthPage.jsx:116
+#: src/components/AuthPage.jsx:213
 msgid "Please try again. If the problem persists, contact support."
 msgstr "Veuillez réessayer. Si le problème persiste, contactez le support."
 
 #: src/components/AuthPage.jsx:155
-#: src/components/AuthPage.jsx:301
-msgid "Get Started"
-msgstr "Commencer"
-
-#: src/components/AuthPage.jsx:177
-msgid "Customer Management"
-msgstr "Gestion des clients"
-
-#: src/components/AuthPage.jsx:179
-msgid "Centralize and manage all customer data from your WordPress site in one powerful CRM platform."
-msgstr "Centralisez et gérez toutes les données clients de votre site WordPress dans une plateforme CRM puissante."
-
-#: src/components/AuthPage.jsx:199
-msgid "Data Synchronization"
-msgstr "Synchronisation des données"
-
-#: src/components/AuthPage.jsx:201
-msgid "Automatic daily sync ensures your CRM data stays up-to-date between WordPress and SureContact platform."
-msgstr "La synchronisation quotidienne automatique garantit que vos données CRM restent à jour entre WordPress et la plateforme SureContact."
-
-#: src/components/AuthPage.jsx:217
-msgid "Real-time Updates"
-msgstr "Mises à jour en temps réel"
-
-#: src/components/AuthPage.jsx:219
-msgid "Get instant updates and notifications when customer data changes or important events occur."
-msgstr "Recevez des mises à jour et notifications instantanées lorsque les données clients changent ou que des événements importants se produisent."
-
-#: src/components/AuthPage.jsx:236
-msgid "Contact Tracking"
-msgstr "Suivi des contacts"
-
-#: src/components/AuthPage.jsx:238
-msgid "Track all customer interactions, communications, and touchpoints across your WordPress site."
-msgstr "Suivez toutes les interactions, communications et points de contact clients sur votre site WordPress."
-
-#: src/components/AuthPage.jsx:254
-msgid "Secure Connection"
-msgstr "Connexion sécurisée"
-
-#: src/components/AuthPage.jsx:256
-msgid "OAuth-based authentication ensures your data remains secure with encrypted connections."
-msgstr "L'authentification basée sur OAuth garantit que vos données restent sécurisées avec des connexions chiffrées."
-
-#: src/components/AuthPage.jsx:273
-msgid "E-commerce Integration"
-msgstr "Intégration e-commerce"
-
-#: src/components/AuthPage.jsx:275
 msgid "Seamlessly integrate with WooCommerce, SureCart, and Easy Digital Downloads for complete customer insights."
 msgstr "Intégrez facilement WooCommerce, SureCart et Easy Digital Downloads pour des informations clients complètes."
 
-#: src/components/AuthPage.jsx:285
-msgid "TRUSTED BY 100K BUSINESSES"
-msgstr "APPROUVÉ PAR 100K ENTREPRISES"
-
-#: src/components/AuthPage.jsx:311
-msgid "Back to Dashboard"
-msgstr "Retour au tableau de bord"
-
 #: src/components/ConfigFields.jsx:127
-#: src/screens/integrations/IntegrationSettings.jsx:217
+#: src/screens/integrations/IntegrationSettings.jsx:231
 msgid "Select an option"
 msgstr "Sélectionner une option"
 
-#: src/components/ConfigFields.jsx:289
+#: src/components/ConfigFields.jsx:293
 msgid "Add"
 msgstr "Ajouter"
 
-#: src/components/ConfigFields.jsx:295
+#: src/components/ConfigFields.jsx:299
 msgid "No items added yet. Click \"Add\" to create your first entry."
 msgstr "Aucun élément ajouté. Cliquez sur « Ajouter » pour créer votre première entrée."
 
-#: src/components/ConfigFields.jsx:306
+#. translators: %d: item number
+#: src/components/ConfigFields.jsx:310
 #, js-format
 msgid "Item %d"
 msgstr "Élément %d"
 
-#: src/components/ConfigFields.jsx:314
+#: src/components/ConfigFields.jsx:318
 msgid "Remove item"
 msgstr "Supprimer l'élément"
 
-#: src/components/ConfigFields.jsx:367
-#: src/components/ConfigFields.jsx:386
+#. translators: 1: field label, 2: item number
+#: src/components/ConfigFields.jsx:371
+#: src/components/ConfigFields.jsx:390
 #, js-format
 msgid "%1$s for item %2$d"
 msgstr "%1$s pour l'élément %2$d"
 
-#: src/components/ConfigFields.jsx:417
+#: src/components/ConfigFields.jsx:421
 msgid "No form fields available to map"
 msgstr "Aucun champ de formulaire disponible pour le mappage"
 
-#: src/components/ConfigFields.jsx:423
+#: src/components/ConfigFields.jsx:427
 msgid "Form Field"
 msgstr "Champ de formulaire"
 
-#: src/components/ConfigFields.jsx:426
+#: src/components/ConfigFields.jsx:430
 msgid "CRM Field"
 msgstr "Champ CRM"
 
-#: src/components/ConfigFields.jsx:460
-#: src/screens/integrations/IntegrationSettings.jsx:477
+#. translators: %s: form field label
+#. translators: %s: field label
+#: src/components/ConfigFields.jsx:464
+#: src/screens/integrations/IntegrationSettings.jsx:491
 #, js-format
 msgid "Select CRM field for %s"
 msgstr "Sélectionner le champ CRM pour %s"
 
-#: src/components/ConfigFields.jsx:485
+#: src/components/ConfigFields.jsx:489
 msgid "No configuration required."
 msgstr "Aucune configuration requise."
 
@@ -2964,6 +2859,7 @@ msgstr "Erreur :"
 msgid "Component Stack:"
 msgstr "Pile des composants :"
 
+#. translators: %s: page title
 #: src/components/ErrorBoundary.jsx:136
 #, js-format
 msgid "There was an error loading the %s page. Please try refreshing the page."
@@ -2973,6 +2869,7 @@ msgstr "Une erreur est survenue lors du chargement de la page %s. Veuillez actua
 msgid "Oops! Something went wrong"
 msgstr "Oups ! Une erreur est survenue"
 
+#. translators: %s: page title
 #: src/components/ErrorBoundary.jsx:147
 #, js-format
 msgid "We encountered an error while loading the %s page. This might be a temporary issue."
@@ -2983,37 +2880,44 @@ msgstr "Nous avons rencontré une erreur lors du chargement de la page %s. Ceci 
 msgid "Refresh Page"
 msgstr "Actualiser la page"
 
+#. translators: %s: component name
 #: src/components/ErrorBoundary.jsx:185
 #, js-format
 msgid "Error loading %s"
 msgstr "Erreur de chargement de %s"
 
+#. translators: %s: component name
+#. translators: %s: data type
 #: src/components/ErrorBoundary.jsx:194
 #: src/components/ErrorBoundary.jsx:228
 #, js-format
 msgid "Unable to load %s"
 msgstr "Impossible de charger %s"
 
+#. translators: %s: component name
 #: src/components/ErrorBoundary.jsx:207
 #, js-format
 msgid "There was an error loading the %s. Please try again."
 msgstr "Une erreur est survenue lors du chargement de %s. Veuillez réessayer."
 
+#. translators: %s: data type
 #: src/components/ErrorBoundary.jsx:222
 #, js-format
 msgid "Failed to load %s. Please check your connection and try again."
 msgstr "Échec du chargement de %s. Veuillez vérifier votre connexion et réessayer."
 
+#. translators: %s: data type
 #: src/components/ErrorBoundary.jsx:230
 #, js-format
 msgid "We're having trouble loading the %s. This could be due to a network issue or server problem."
 msgstr "Nous avons des difficultés à charger %s. Cela pourrait être dû à un problème réseau ou serveur."
 
 #: src/components/ErrorBoundary.jsx:240
-#: src/screens/logs/components/LogsTable.jsx:296
+#: src/screens/logs/components/LogsTable.jsx:302
 msgid "Retry"
 msgstr "Réessayer"
 
+#: src/components/AuthPage.jsx:362
 #: src/components/NavMenu.jsx:23
 #: src/screens/integrations/IntegrationsTableCard.jsx:1513
 msgid "Integrations"
@@ -3029,7 +2933,7 @@ msgid "Settings"
 msgstr "Paramètres"
 
 #: src/components/NavMenu.jsx:26
-#: src/screens/logs/components/LogsHeader.jsx:22
+#: src/screens/logs/components/LogsHeader.jsx:23
 msgid "Logs"
 msgstr "Journaux"
 
@@ -3045,6 +2949,7 @@ msgstr "Aller au tableau de bord"
 msgid "Main navigation"
 msgstr "Navigation principale"
 
+#. translators: %s: version number
 #: src/components/NavMenu.jsx:217
 #, js-format
 msgid "V %s"
@@ -3076,18 +2981,21 @@ msgstr "Seuls les champs marqués comme « Actif » (Synchronisation activée) s
 msgid "Error saving mappings"
 msgstr "Erreur lors de l'enregistrement des mappages"
 
+#. translators: %s: field label
 #: src/screens/contact-fields/FieldMappingTable.jsx:114
 #: src/screens/integrations/IntegrationsTableCard.jsx:150
 #, js-format
 msgid "Field \"%s\" is now available."
 msgstr "Le champ « %s » est maintenant disponible."
 
+#. translators: %s: last sync time
 #: src/components/CustomFieldSelect.jsx:63
 #: src/screens/contact-fields/FieldMappingTable.jsx:144
 #, js-format
 msgid "Last sync: %s"
 msgstr "Dernière synchronisation : %s"
 
+#. translators: %s: field group title
 #: src/screens/contact-fields/FieldMappingTable.jsx:218
 #, js-format
 msgid "%s field mappings"
@@ -3103,7 +3011,7 @@ msgid "Type"
 msgstr "Type"
 
 #: src/screens/contact-fields/FieldMappingTable.jsx:226
-#: src/screens/integrations/IntegrationSettings.jsx:412
+#: src/screens/integrations/IntegrationSettings.jsx:426
 msgid "SureContact Field"
 msgstr "Champ SureContact"
 
@@ -3147,11 +3055,13 @@ msgstr "Ajouter une intégration"
 msgid "On %1$s of %2$s"
 msgstr "Le %1$s de %2$s"
 
+#. translators: %s: color name
 #: src/screens/integrations/components/NotesPopup.jsx:259
 #, js-format
 msgid "Select %s color"
 msgstr "Sélectionner la couleur %s"
 
+#. translators: %s: color name
 #: src/screens/integrations/components/NotesPopup.jsx:291
 #, js-format
 msgid "Note color: %s. Click to change"
@@ -3190,6 +3100,7 @@ msgstr "Ouvrir la documentation dans une nouvelle fenêtre"
 msgid "Documentation"
 msgstr "Documentation"
 
+#. translators: 1: action label (Enable or Disable), 2: integration name
 #: src/screens/integrations/IntegrationCard.jsx:125
 #, js-format
 msgid "%1$s %2$s integration"
@@ -3213,24 +3124,24 @@ msgstr "Masquer les paramètres"
 msgid "Show settings"
 msgstr "Afficher les paramètres"
 
-#: src/screens/integrations/IntegrationSettings.jsx:408
+#: src/screens/integrations/IntegrationSettings.jsx:422
 msgid "Plugin Field"
 msgstr "Champ du plugin"
 
-#: src/screens/integrations/IntegrationSettings.jsx:430
-#: src/screens/integrations/IntegrationSettings.jsx:475
+#: src/screens/integrations/IntegrationSettings.jsx:444
+#: src/screens/integrations/IntegrationSettings.jsx:489
 msgid "---Skip---"
 msgstr "---Ignorer---"
 
-#: src/screens/integrations/IntegrationSettings.jsx:493
+#: src/screens/integrations/IntegrationSettings.jsx:507
 msgid "No fields available for mapping."
 msgstr "Aucun champ disponible pour le mappage."
 
-#: src/screens/integrations/IntegrationSettings.jsx:511
+#: src/screens/integrations/IntegrationSettings.jsx:525
 msgid "No settings available for this integration."
 msgstr "Aucun paramètre disponible pour cette intégration."
 
-#: src/screens/integrations/IntegrationSettings.jsx:550
+#: src/screens/integrations/IntegrationSettings.jsx:564
 msgid "Save Settings"
 msgstr "Enregistrer les paramètres"
 
@@ -3244,20 +3155,22 @@ msgstr "Paramètres globaux"
 msgid "No integrations found"
 msgstr "Aucune intégration trouvée"
 
-#: src/screens/logs/components/LogsHeader.jsx:64
+#: src/screens/logs/components/LogsHeader.jsx:65
 msgid "Refresh"
 msgstr "Actualiser"
 
-#: src/screens/logs/components/LogsFilter.jsx:11
+#: src/screens/logs/components/LogsFilter.jsx:16
 #: src/screens/sync-contacts/JobHistory.jsx:14
-#: src/screens/sync-contacts/JobProgress.jsx:38
+#: src/screens/sync-contacts/JobProgress.jsx:43
 msgid "Processing"
 msgstr "En cours"
 
-#: src/screens/logs/components/LogsFilter.jsx:10
+#: src/screens/logs/components/LogsFilter.jsx:15
 #: src/screens/logs/components/LogsStats.jsx:53
 #: src/screens/sync-contacts/JobHistory.jsx:24
-#: src/screens/sync-contacts/JobProgress.jsx:111
+#: src/screens/sync-contacts/JobHistory.jsx:38
+#: src/screens/sync-contacts/JobProgress.jsx:113
+#: src/screens/sync-contacts/JobProgress.jsx:146
 msgid "Failed"
 msgstr "Échoué"
 
@@ -3266,7 +3179,7 @@ msgstr "Échoué"
 msgid "Total"
 msgstr "Total"
 
-#: src/screens/logs/components/LogsTable.jsx:115
+#: src/screens/logs/components/LogsTable.jsx:119
 msgid "Failed to load logs. Please try again."
 msgstr "Échec du chargement des journaux. Veuillez réessayer."
 
@@ -3274,50 +3187,53 @@ msgstr "Échec du chargement des journaux. Veuillez réessayer."
 msgid "N/A"
 msgstr "N/D"
 
-#: src/screens/logs/components/LogsTable.jsx:238
+#: src/screens/logs/components/LogsTable.jsx:242
 msgid "Operation"
 msgstr "Opération"
 
 #: src/screens/integrations/IntegrationsTableCard.jsx:1235
-#: src/screens/logs/components/LogsTable.jsx:237
+#: src/screens/logs/components/LogsTable.jsx:241
 msgid "Status"
 msgstr "Statut"
 
-#: src/screens/logs/components/LogsTable.jsx:342
+#: src/screens/logs/components/LogsTable.jsx:348
 msgid "Retries"
 msgstr "Tentatives"
 
-#: src/screens/logs/components/LogsTable.jsx:242
+#: src/screens/logs/components/LogsTable.jsx:246
 #: src/screens/sync-contacts/JobHistory.jsx:22
-#: src/screens/sync-contacts/JobProgress.jsx:99
+#: src/screens/sync-contacts/JobProgress.jsx:134
 msgid "Created"
 msgstr "Créé"
 
-#: src/screens/logs/components/LogsTable.jsx:306
+#. translators: %d: log ID
+#: src/screens/logs/components/LogsTable.jsx:312
 #, js-format
 msgid "Retry request #%d"
 msgstr "Réessayer la requête #%d"
 
-#: src/screens/logs/components/LogsTable.jsx:392
+#. translators: 1: start entry, 2: end entry, 3: total entries
+#: src/screens/logs/components/LogsTable.jsx:399
 #, js-format
 msgid "Showing %1$d to %2$d of %3$d entries"
 msgstr "Affichage de %1$d à %2$d sur %3$d entrées"
 
-#: src/screens/logs/components/LogsTable.jsx:402
-#: src/screens/logs/components/LogsTable.jsx:421
+#: src/screens/logs/components/LogsTable.jsx:409
+#: src/screens/logs/components/LogsTable.jsx:428
 msgid "Rows per page"
 msgstr "Lignes par page"
 
-#: src/screens/logs/components/LogsTable.jsx:445
+#: src/screens/logs/components/LogsTable.jsx:452
 msgid "Go to previous page"
 msgstr "Aller à la page précédente"
 
-#: src/screens/logs/components/LogsTable.jsx:470
+#. translators: %d: page number
+#: src/screens/logs/components/LogsTable.jsx:477
 #, js-format
 msgid "Page %d"
 msgstr "Page %d"
 
-#: src/screens/logs/components/LogsTable.jsx:485
+#: src/screens/logs/components/LogsTable.jsx:492
 msgid "Go to next page"
 msgstr "Aller à la page suivante"
 
@@ -3350,7 +3266,7 @@ msgid "Confirm"
 msgstr "Confirmer"
 
 #: src/screens/sync-contacts/JobHistory.jsx:13
-#: src/screens/sync-contacts/JobProgress.jsx:36
+#: src/screens/sync-contacts/JobProgress.jsx:41
 msgid "Queued"
 msgstr "En file d'attente"
 
@@ -3359,74 +3275,84 @@ msgid "Cancelled"
 msgstr "Annulé"
 
 #: src/screens/sync-contacts/JobHistory.jsx:21
-#: src/screens/sync-contacts/JobProgress.jsx:93
+#: src/screens/sync-contacts/JobHistory.jsx:36
+#: src/screens/sync-contacts/JobProgress.jsx:99
+#: src/screens/sync-contacts/JobProgress.jsx:128
 msgid "Synced"
 msgstr "Synchronisé"
 
 #: src/screens/sync-contacts/JobHistory.jsx:23
-#: src/screens/sync-contacts/JobProgress.jsx:105
+#: src/screens/sync-contacts/JobProgress.jsx:140
 msgid "Updated"
 msgstr "Mis à jour"
 
-#: src/screens/sync-contacts/JobHistory.jsx:35
+#: src/screens/sync-contacts/JobHistory.jsx:50
 msgid "Recent Jobs"
 msgstr "Tâches récentes"
 
-#: src/screens/sync-contacts/JobHistory.jsx:53
+#: src/screens/sync-contacts/JobHistory.jsx:68
 msgid "No sync jobs yet"
 msgstr "Aucune tâche de synchronisation"
 
-#: src/screens/sync-contacts/JobHistory.jsx:92
+#. translators: 1: processed batch count, 2: total batch count
+#: src/screens/sync-contacts/JobHistory.jsx:115
 #, js-format
 msgid "%1$d / %2$d batches"
 msgstr "%1$d / %2$d lots"
 
-#: src/screens/sync-contacts/JobHistory.jsx:117
+#. translators: %s: formatted date
+#: src/screens/sync-contacts/JobHistory.jsx:140
 #, js-format
 msgid "Created: %s"
 msgstr "Créé : %s"
 
-#: src/screens/sync-contacts/JobHistory.jsx:121
+#. translators: %s: formatted date
+#: src/screens/sync-contacts/JobHistory.jsx:144
 #, js-format
 msgid "Completed: %s"
 msgstr "Terminé : %s"
 
-#: src/screens/sync-contacts/JobHistory.jsx:261
+#. translators: 1: start index, 2: end index, 3: total jobs
+#: src/screens/sync-contacts/JobHistory.jsx:284
 #, js-format
 msgid "Showing %1$d to %2$d of %3$d jobs"
 msgstr "Affichage de %1$d à %2$d sur %3$d tâches"
 
-#: src/screens/sync-contacts/JobProgress.jsx:24
+#: src/screens/sync-contacts/JobProgress.jsx:29
 msgid "Sync job cancelled successfully"
 msgstr "Tâche de synchronisation annulée avec succès"
 
-#: src/screens/sync-contacts/JobProgress.jsx:48
+#: src/screens/sync-contacts/JobProgress.jsx:53
 msgid "Sync Progress"
 msgstr "Progression de la synchronisation"
 
-#: src/screens/sync-contacts/JobProgress.jsx:60
+#: src/screens/sync-contacts/JobProgress.jsx:65
 msgid "Cancel Sync"
 msgstr "Annuler la synchronisation"
 
-#: src/screens/sync-contacts/JobProgress.jsx:69
+#. translators: 1: processed batch count, 2: total batch count
+#: src/screens/sync-contacts/JobProgress.jsx:74
 #, js-format
 msgid "%1$d of %2$d batches processed"
 msgstr "%1$d sur %2$d lots traités"
 
-#: src/screens/sync-contacts/JobProgress.jsx:77
+#. translators: %s: progress percentage
+#: src/screens/sync-contacts/JobProgress.jsx:82
 #, js-format
 msgid "Sync progress: %s%% complete"
 msgstr "Progression de la synchronisation : %s %% terminé"
 
-#: src/screens/sync-contacts/JobProgress.jsx:85
+#: src/screens/sync-contacts/JobProgress.jsx:91
+#: src/screens/sync-contacts/JobProgress.jsx:120
 msgid "Sync statistics"
 msgstr "Statistiques de synchronisation"
 
-#: src/screens/sync-contacts/JobProgress.jsx:87
+#: src/screens/sync-contacts/JobProgress.jsx:122
 msgid "Total Items"
 msgstr "Total des éléments"
 
-#: src/screens/sync-contacts/JobProgress.jsx:123
+#. translators: %s: formatted date
+#: src/screens/sync-contacts/JobProgress.jsx:159
 #, js-format
 msgid "Started: %s"
 msgstr "Démarré : %s"
@@ -3447,6 +3373,7 @@ msgstr "Une tâche de synchronisation est actuellement en cours en arrière-plan
 msgid "Sync Completed"
 msgstr "Synchronisation terminée"
 
+#. translators: 1: synced count, 2: created count, 3: updated count, 4: failed count
 #: src/screens/sync-contacts/SyncContacts.jsx:70
 #, js-format
 msgid "%1$s records synced (%2$s created, %3$s updated, %4$s failed)"
@@ -3493,16 +3420,19 @@ msgstr "Synchronisation démarrée"
 msgid "Sync job started successfully!"
 msgstr "Tâche de synchronisation démarrée avec succès !"
 
+#. translators: %s: list name
 #: src/components/ListSelect.jsx:145
 #, js-format
 msgid "List \"%s\" created successfully!"
 msgstr "Liste \"%s\" créée avec succès !"
 
+#. translators: %s: tag name
 #: src/components/TagSelect.jsx:145
 #, js-format
 msgid "Tag \"%s\" created successfully!"
 msgstr "Tag \"%s\" créé avec succès !"
 
+#. translators: %s: field label
 #: src/screens/contact-fields/components/FieldRow.jsx:56
 #: src/screens/contact-fields/components/FieldRow.jsx:119
 #, js-format
@@ -3517,12 +3447,14 @@ msgstr "Type :"
 msgid "SureContact Field:"
 msgstr "Champ SureContact :"
 
+#. translators: %s: field label
 #: src/screens/contact-fields/components/FieldRow.jsx:78
 #: src/screens/contact-fields/components/FieldRow.jsx:110
 #, js-format
 msgid "Map %s to SureContact field"
 msgstr "Mapper %s au champ SureContact"
 
+#: src/components/AuthPage.jsx:258
 #: src/screens/dashboard/Dashboard.jsx:274
 msgid "SureContact overview video"
 msgstr "Vidéo de présentation de SureContact"
@@ -3535,6 +3467,7 @@ msgstr "Échec du chargement des intégrations"
 msgid "Please select a type."
 msgstr "Veuillez sélectionner un type."
 
+#. translators: %s: item type
 #: src/screens/integrations/IntegrationsTableCard.jsx:481
 #, js-format
 msgid "Please select a %s to configure."
@@ -3637,17 +3570,20 @@ msgstr "Intégration désactivée avec succès !"
 msgid "Failed to update integration status. Please try again."
 msgstr "Échec de la mise à jour du statut de l'intégration. Veuillez réessayer."
 
+#. translators: %s: plugin name
 #: src/screens/integrations/IntegrationsTableCard.jsx:1094
 #: src/screens/integrations/IntegrationsTableCard.jsx:1290
 #, js-format
 msgid "Activating %s…"
 msgstr "Activation de %s…"
 
+#. translators: %s: plugin name
 #: src/screens/integrations/IntegrationsTableCard.jsx:1099
 #, js-format
 msgid "%s activated successfully!"
 msgstr "%s activé avec succès !"
 
+#. translators: %s: plugin name
 #: src/screens/integrations/IntegrationsTableCard.jsx:1109
 #, js-format
 msgid "Failed to activate %s."
@@ -3672,15 +3608,17 @@ msgid "Created On"
 msgstr "Créé le"
 
 #: src/screens/integrations/IntegrationsTableCard.jsx:1236
-#: src/screens/logs/components/LogsTable.jsx:243
+#: src/screens/logs/components/LogsTable.jsx:247
 msgid "Actions"
 msgstr "Actions"
 
+#. translators: %s: plugin name
 #: src/screens/integrations/IntegrationsTableCard.jsx:1263
 #, js-format
 msgid "Click to activate %s"
 msgstr "Cliquez pour activer %s"
 
+#. translators: %s: plugin name
 #: src/screens/integrations/IntegrationsTableCard.jsx:1269
 #, js-format
 msgid "Activate %s plugin"
@@ -3759,6 +3697,7 @@ msgstr "Rechercher des intégrations"
 msgid "Clear search"
 msgstr "Effacer la recherche"
 
+#. translators: %s: search query
 #: src/screens/integrations/IntegrationsTableCard.jsx:1578
 #, js-format
 msgid "No integrations found matching \"%s\""
@@ -3772,6 +3711,7 @@ msgstr "Plugins actifs"
 msgid "Inactive Plugins"
 msgstr "Plugins inactifs"
 
+#. translators: %s: integration name
 #: src/screens/integrations/IntegrationsTableCard.jsx:1643
 #, js-format
 msgid "%s - This plugin is not installed or inactive"
@@ -3868,7 +3808,7 @@ msgstr "Aucune configuration supplémentaire disponible pour cet élément."
 
 #: src/screens/contact-fields/components/FieldMappingHeader.jsx:40
 #: src/screens/integrations/components/NotesPopup.jsx:341
-#: src/screens/integrations/IntegrationSettings.jsx:550
+#: src/screens/integrations/IntegrationSettings.jsx:564
 #: src/screens/integrations/IntegrationsTableCard.jsx:2052
 #: src/screens/settings/Settings.jsx:122
 msgid "Saving…"
@@ -3878,6 +3818,7 @@ msgstr "Enregistrement…"
 msgid "Delete Integration Configuration?"
 msgstr "Supprimer la configuration de l'intégration ?"
 
+#. translators: 1: configuration scope, 2: integration name
 #: src/screens/integrations/IntegrationsTableCard.jsx:2072
 #, js-format
 msgid "This will permanently remove the %1$s configuration for %2$s."
@@ -3900,17 +3841,17 @@ msgid "Configuration:"
 msgstr "Configuration :"
 
 #: src/screens/integrations/IntegrationsTableCard.jsx:2104
-#: src/screens/logs/components/LogsTable.jsx:541
+#: src/screens/logs/components/LogsTable.jsx:549
 msgid "Deleting…"
 msgstr "Suppression…"
 
 #: src/screens/integrations/IntegrationsTableCard.jsx:2104
-#: src/screens/logs/components/LogsTable.jsx:310
-#: src/screens/logs/components/LogsTable.jsx:541
+#: src/screens/logs/components/LogsTable.jsx:316
+#: src/screens/logs/components/LogsTable.jsx:549
 msgid "Delete"
 msgstr "Supprimer"
 
-#: src/screens/logs/components/LogsTable.jsx:435
+#: src/screens/logs/components/LogsTable.jsx:442
 msgid "Logs pagination"
 msgstr "Pagination des journaux"
 
@@ -3950,7 +3891,7 @@ msgstr "Synchronisez les soumissions de formulaires Elementor avec un mappage de
 msgid "Sync Fluent Forms submissions with per-form field mapping"
 msgstr "Synchronisez les soumissions de Fluent Forms avec un mappage de champs par formulaire"
 
-#: includes/integrations/class-fluentcrm-integration.php:48
+#: includes/integrations/class-fluentcrm-integration.php:79
 msgid "Sync FluentCRM contacts with bulk import support for large datasets"
 msgstr "Synchronisez les contacts FluentCRM avec un support d'importation en masse pour de grands ensembles de données"
 
@@ -4041,17 +3982,17 @@ msgstr "Sélectionner %1$s %2$s…"
 msgid "No %1$ss found. Please create %2$s %3$s in %4$s first."
 msgstr "Aucun %1$ss trouvé. Veuillez d'abord créer %2$s %3$s dans %4$s."
 
-#: src/components/ConfigFields.jsx:201
-#: src/components/ConfigFields.jsx:366
+#: src/components/ConfigFields.jsx:205
+#: src/components/ConfigFields.jsx:370
 #: src/components/ListSelect.jsx:41
-#: src/screens/integrations/IntegrationSettings.jsx:327
+#: src/screens/integrations/IntegrationSettings.jsx:341
 msgid "Select lists…"
 msgstr "Sélectionner des listes…"
 
-#: src/components/ConfigFields.jsx:223
-#: src/components/ConfigFields.jsx:385
+#: src/components/ConfigFields.jsx:227
+#: src/components/ConfigFields.jsx:389
 #: src/components/TagSelect.jsx:41
-#: src/screens/integrations/IntegrationSettings.jsx:366
+#: src/screens/integrations/IntegrationSettings.jsx:380
 msgid "Select tags…"
 msgstr "Sélectionner des étiquettes…"
 
@@ -4088,15 +4029,15 @@ msgstr "Synchronisation…"
 msgid "Add note here…"
 msgstr "Ajouter une note ici…"
 
-#: src/screens/integrations/IntegrationSettings.jsx:402
+#: src/screens/integrations/IntegrationSettings.jsx:416
 msgid "Loading field mapping…"
 msgstr "Chargement de la mappage des champs…"
 
-#: src/screens/integrations/IntegrationSettings.jsx:474
+#: src/screens/integrations/IntegrationSettings.jsx:488
 msgid "Select CRM field…"
 msgstr "Sélectionner un champ CRM…"
 
-#: src/screens/sync-contacts/JobProgress.jsx:60
+#: src/screens/sync-contacts/JobProgress.jsx:65
 msgid "Cancelling…"
 msgstr "Annulation…"
 
@@ -4104,48 +4045,48 @@ msgstr "Annulation…"
 msgid "Email field mapping is required before syncing. Please configure it in Contact Fields settings."
 msgstr "Le mappage des champs de l'email est requis avant la synchronisation. Veuillez le configurer dans les paramètres des champs de contact."
 
-#: includes/api-wp/class-queue-rest-controller.php:430
+#: includes/api-wp/class-queue-rest-controller.php:435
 msgid "Log entry not found or could not be deleted."
 msgstr "Entrée de journal non trouvée ou n'a pas pu être supprimée."
 
-#: includes/api-wp/class-queue-rest-controller.php:438
+#: includes/api-wp/class-queue-rest-controller.php:443
 msgid "Log entry deleted."
 msgstr "Entrée de journal supprimée."
 
 #. translators: %d: number of deleted entries
-#: includes/api-wp/class-queue-rest-controller.php:460
+#: includes/api-wp/class-queue-rest-controller.php:465
 #, php-format
 msgid "%d log entries deleted."
 msgstr "%d entrées de journal supprimées."
 
 #. translators: %d: number of cleared entries
-#: includes/api-wp/class-queue-rest-controller.php:484
+#: includes/api-wp/class-queue-rest-controller.php:489
 #, php-format
 msgid "%d log entries cleared."
 msgstr "%d entrées de journal effacées."
 
 #. translators: %d: number of items queued for retry
-#: includes/api-wp/class-queue-rest-controller.php:594
+#: includes/api-wp/class-queue-rest-controller.php:599
 #, php-format
 msgid "%d items queued for retry."
 msgstr "%d éléments en attente de réessai."
 
 #. translators: %1$d: succeeded count, %2$d: failed count
-#: includes/api-wp/class-queue-rest-controller.php:619
+#: includes/api-wp/class-queue-rest-controller.php:624
 #, php-format
 msgid "%1$d succeeded, %2$d failed."
 msgstr "%1$d réussi, %2$d échoué."
 
-#: includes/api-wp/class-queue-rest-controller.php:643
+#: includes/api-wp/class-queue-rest-controller.php:648
 msgid "Queue item not found or could not be deleted."
 msgstr "Élément de la file d'attente non trouvé ou n'a pas pu être supprimé."
 
-#: includes/api-wp/class-queue-rest-controller.php:651
+#: includes/api-wp/class-queue-rest-controller.php:656
 msgid "Queue item deleted."
 msgstr "Élément de la file d'attente supprimé."
 
 #. translators: %d: number of deleted items
-#: includes/api-wp/class-queue-rest-controller.php:673
+#: includes/api-wp/class-queue-rest-controller.php:678
 #, php-format
 msgid "%d queue items deleted."
 msgstr "%d éléments de la file d'attente supprimés."
@@ -4236,220 +4177,235 @@ msgstr "Rembourser l'achat"
 msgid "Sync Custom Field"
 msgstr "Synchroniser le champ personnalisé"
 
-#: includes/class-queue-manager.php:192
+#: includes/class-queue-manager.php:142
 msgid "This log entry is not an API request and cannot be retried."
 msgstr "Cette entrée de journal n'est pas une requête API et ne peut pas être réessayée."
 
-#: includes/class-queue-manager.php:196
+#: includes/class-queue-manager.php:146
 msgid "Retry failed. Check the log entry for details."
 msgstr "Échec de la réessai. Vérifiez l'entrée du journal pour plus de détails."
 
-#: src/api/queue.js:22
+#: src/api/queue.js:17
 msgid "Invalid ID provided"
 msgstr "ID invalide fourni"
 
-#: src/api/queue.js:70
+#: src/api/queue.js:92
+#: src/api/queue.js:97
 msgid "Failed to delete log"
 msgstr "Échec de la suppression du journal"
 
-#: src/api/queue.js:84
-#: src/screens/logs/Logs.jsx:93
+#: src/api/queue.js:115
+#: src/api/queue.js:120
+#: src/hooks/useLogs.js:113
 msgid "Failed to delete logs"
 msgstr "Échec de la suppression des journaux"
 
-#: src/api/queue.js:97
-#: src/screens/logs/Logs.jsx:129
+#: src/api/queue.js:136
+#: src/api/queue.js:141
+#: src/hooks/useLogs.js:185
 msgid "Failed to clear logs"
 msgstr "Échec de la suppression des journaux"
 
-#: src/api/queue.js:112
+#: src/api/queue.js:159
+#: src/api/queue.js:164
 msgid "Failed to fetch queue logs"
 msgstr "Échec de la récupération des journaux de la file d'attente"
 
-#: src/api/queue.js:125
+#: src/api/queue.js:180
+#: src/api/queue.js:185
 msgid "Failed to fetch queue stats"
 msgstr "Échec de la récupération des statistiques de la file d'attente"
 
-#: src/api/queue.js:139
-#: src/screens/logs/Logs.jsx:82
+#: src/api/queue.js:202
+#: src/api/queue.js:207
+#: src/hooks/useLogs.js:89
 msgid "Failed to retry item"
 msgstr "Échec de la réessai de l'élément"
 
-#: src/api/queue.js:152
-#: src/api/queue.js:166
-#: src/screens/logs/Logs.jsx:105
-#: src/screens/logs/Logs.jsx:116
+#: src/api/queue.js:223
+#: src/api/queue.js:228
+#: src/api/queue.js:246
+#: src/api/queue.js:251
+#: src/hooks/useLogs.js:137
+#: src/hooks/useLogs.js:161
 msgid "Failed to retry items"
 msgstr "Échec de la réessai des éléments"
 
-#: src/api/queue.js:180
+#: src/api/queue.js:268
+#: src/api/queue.js:273
 msgid "Failed to delete queue item"
 msgstr "Échec de la suppression de l'élément de la file d'attente"
 
-#: src/api/queue.js:194
+#: src/api/queue.js:291
+#: src/api/queue.js:296
 msgid "Failed to delete queue items"
 msgstr "Échec de la suppression des éléments de la file d'attente"
 
-#: src/screens/logs/components/LogsFilter.jsx:7
-#: src/screens/logs/components/LogsFilter.jsx:25
-#: src/screens/logs/components/LogsFilter.jsx:28
+#: src/screens/logs/components/LogsFilter.jsx:12
+#: src/screens/logs/components/LogsFilter.jsx:41
+#: src/screens/logs/components/LogsFilter.jsx:44
 msgid "All Statuses"
 msgstr "Tous les statuts"
 
-#: src/screens/logs/components/LogsFilter.jsx:8
+#: src/screens/logs/components/LogsFilter.jsx:13
 #: src/screens/logs/components/LogsStats.jsx:39
 msgid "Success"
 msgstr "Succès"
 
-#: src/screens/logs/components/LogsFilter.jsx:9
+#: src/screens/logs/components/LogsFilter.jsx:14
 #: src/screens/logs/components/LogsStats.jsx:46
-#: src/screens/logs/components/LogsTable.jsx:352
+#: src/screens/logs/components/LogsTable.jsx:358
 msgid "Error"
 msgstr "Erreur"
 
-#: src/screens/logs/components/LogsFilter.jsx:30
+#: src/screens/logs/components/LogsFilter.jsx:46
 msgid "Filter by status"
 msgstr "Filtrer par statut"
 
-#: src/screens/logs/components/LogsFilter.jsx:48
+#: src/screens/logs/components/LogsFilter.jsx:64
 msgid "Search endpoint or operation..."
 msgstr "Rechercher un point de terminaison ou une opération..."
 
-#: src/screens/logs/components/LogsFilter.jsx:51
+#: src/screens/logs/components/LogsFilter.jsx:67
 msgid "Search logs"
 msgstr "Rechercher des journaux"
 
-#: src/screens/logs/components/LogsHeader.jsx:27
+#: src/screens/logs/components/LogsHeader.jsx:28
 msgid "Monitor API activity and manage failed requests"
 msgstr "Surveiller l'activité de l'API et gérer les requêtes échouées"
 
-#: src/screens/logs/components/LogsHeader.jsx:43
+#: src/screens/logs/components/LogsHeader.jsx:44
 msgid "Retry All Failed"
 msgstr "Réessayer tous les échoués"
 
-#: src/screens/logs/components/LogsHeader.jsx:54
-#: src/screens/logs/components/LogsHeader.jsx:103
+#: src/screens/logs/components/LogsHeader.jsx:55
+#: src/screens/logs/components/LogsHeader.jsx:143
 msgid "Clear Logs"
 msgstr "Effacer les journaux"
 
-#: src/screens/logs/components/LogsHeader.jsx:76
+#: src/screens/logs/components/LogsHeader.jsx:116
 msgid "Clear Logs?"
 msgstr "Effacer les journaux?"
 
-#: src/screens/logs/components/LogsHeader.jsx:80
+#: src/screens/logs/components/LogsHeader.jsx:120
 msgid "This will permanently delete all completed log entries (success and error). Failed and processing entries will be preserved."
 msgstr "Cela supprimera définitivement toutes les entrées de journal complètes (succès et erreur). Les entrées échouées et en cours de traitement seront conservées."
 
-#: src/screens/logs/components/LogsHeader.jsx:103
+#: src/screens/logs/components/LogsHeader.jsx:143
 msgid "Clearing…"
 msgstr "Effacement…"
 
-#: src/screens/logs/components/LogsTable.jsx:169
+#: src/screens/logs/components/LogsTable.jsx:173
 msgid "No log entries"
 msgstr "Aucune entrée de journal"
 
-#: src/screens/logs/components/LogsTable.jsx:170
+#: src/screens/logs/components/LogsTable.jsx:174
 msgid "API activity will appear here"
 msgstr "L'activité API apparaîtra ici"
 
-#: src/screens/logs/components/LogsTable.jsx:189
+#. translators: %d: number of selected logs
+#: src/screens/logs/components/LogsTable.jsx:193
 #, js-format
 msgid "%d selected"
 msgstr "%d sélectionné"
 
-#: src/screens/logs/components/LogsTable.jsx:201
+#. translators: %d: number of selected retryable logs
+#: src/screens/logs/components/LogsTable.jsx:205
 #, js-format
 msgid "Retry Selected (%d)"
 msgstr "Réessayer sélectionné (%d)"
 
-#: src/screens/logs/components/LogsTable.jsx:214
+#: src/screens/logs/components/LogsTable.jsx:218
 msgid "Delete Selected"
 msgstr "Supprimer la sélection"
 
-#: src/screens/logs/components/LogsTable.jsx:222
+#: src/screens/logs/components/LogsTable.jsx:226
 msgid "Clear"
 msgstr "Clair"
 
-#: src/screens/logs/components/LogsTable.jsx:234
+#: src/screens/logs/components/LogsTable.jsx:238
 msgid "Select all"
 msgstr "Tout sélectionner"
 
-#: src/screens/logs/components/LogsTable.jsx:239
+#: src/screens/logs/components/LogsTable.jsx:243
 msgid "Endpoint"
 msgstr "Point de terminaison"
 
-#: src/screens/logs/components/LogsTable.jsx:240
+#: src/screens/logs/components/LogsTable.jsx:244
 msgid "Method"
 msgstr "Méthode"
 
-#: src/screens/logs/components/LogsTable.jsx:241
+#: src/screens/logs/components/LogsTable.jsx:245
 msgid "Response"
 msgstr "Réponse"
 
-#: src/screens/logs/components/LogsTable.jsx:258
+#. translators: %d: log ID
+#: src/screens/logs/components/LogsTable.jsx:264
 #, js-format
 msgid "Select log #%d"
 msgstr "Sélectionner le journal #%d"
 
-#: src/screens/logs/components/LogsTable.jsx:319
+#. translators: %d: log ID
+#: src/screens/logs/components/LogsTable.jsx:325
 #, js-format
 msgid "Delete log #%d"
 msgstr "Supprimer le journal #%d"
 
-#: src/screens/logs/components/LogsTable.jsx:333
+#: src/screens/logs/components/LogsTable.jsx:339
 msgid "Full Endpoint"
 msgstr "Point de terminaison complet"
 
-#: src/screens/logs/components/LogsTable.jsx:352
+#: src/screens/logs/components/LogsTable.jsx:358
 msgid "Message"
 msgstr "Message"
 
-#: src/screens/logs/components/LogsTable.jsx:362
+#: src/screens/logs/components/LogsTable.jsx:368
 msgid "Request Payload"
 msgstr "Charge utile de la requête"
 
-#: src/screens/logs/components/LogsTable.jsx:371
+#: src/screens/logs/components/LogsTable.jsx:377
 msgid "Response Data"
 msgstr "Données de réponse"
 
-#: src/screens/logs/components/LogsTable.jsx:500
+#: src/screens/logs/components/LogsTable.jsx:507
 msgid "Delete Log Entry?"
 msgstr "Supprimer l'entrée du journal ?"
 
-#: src/screens/logs/components/LogsTable.jsx:501
+#: src/screens/logs/components/LogsTable.jsx:508
 msgid "Delete Selected Logs?"
 msgstr "Supprimer les journaux sélectionnés ?"
 
-#: src/screens/logs/components/LogsTable.jsx:508
+#: src/screens/logs/components/LogsTable.jsx:515
 msgid "This will permanently delete this log entry. This action cannot be undone."
 msgstr "Cela supprimera définitivement cette entrée de journal. Cette action ne peut pas être annulée."
 
-#: src/screens/logs/components/LogsTable.jsx:510
+#. translators: %d: number of log entries
+#: src/screens/logs/components/LogsTable.jsx:518
 #, js-format
 msgid "This will permanently delete %d log entries. This action cannot be undone."
 msgstr "Cela supprimera définitivement %d entrées de journal. Cette action ne peut pas être annulée."
 
-#: src/screens/logs/Logs.jsx:70
+#: src/screens/logs/Logs.jsx:52
 msgid "Logs refreshed"
 msgstr "Journaux actualisés"
 
-#: src/screens/logs/Logs.jsx:79
+#: src/hooks/useLogs.js:84
 msgid "Item queued for retry"
 msgstr "Élément mis en file d'attente pour réessayer"
 
-#: src/screens/logs/Logs.jsx:90
+#: src/hooks/useLogs.js:108
 msgid "Logs deleted"
 msgstr "Journaux supprimés"
 
-#: src/screens/logs/Logs.jsx:102
+#: src/hooks/useLogs.js:132
 msgid "Items queued for retry"
 msgstr "Éléments mis en file d'attente pour réessayer"
 
-#: src/screens/logs/Logs.jsx:113
+#: src/hooks/useLogs.js:156
 msgid "All failed items queued for retry"
 msgstr "Tous les éléments échoués mis en file d'attente pour réessayer"
 
-#: src/screens/logs/Logs.jsx:126
+#: src/hooks/useLogs.js:180
 msgid "Logs cleared"
 msgstr "Journaux effacés"
 
@@ -4460,3 +4416,680 @@ msgstr "Le mappage des champs d'email est requis avant la synchronisation."
 #: src/screens/sync-contacts/IntegrationSyncCard.jsx:125
 msgid "Configure Contact Fields"
 msgstr "Configurer les champs de contact"
+
+#. translators: %d: number of lists found
+#: includes/abilities/crm/class-get-list.php:122
+#, php-format
+msgid "Found %d list."
+msgid_plural "Found %d lists."
+msgstr[0] "%d liste trouvée."
+msgstr[1] "%d listes trouvées."
+
+#. translators: %d: number of tags found
+#: includes/abilities/crm/class-get-tag.php:122
+#, php-format
+msgid "Found %d tag."
+msgid_plural "Found %d tags."
+msgstr[0] "%d étiquette trouvée."
+msgstr[1] "%d étiquettes trouvées."
+
+#. translators: %d: number of lists
+#: includes/abilities/crm/class-import-metadata.php:145
+#, php-format
+msgid "%d list"
+msgid_plural "%d lists"
+msgstr[0] "%d liste"
+msgstr[1] "%d listes"
+
+#. translators: %d: number of tags
+#: includes/abilities/crm/class-import-metadata.php:147
+#, php-format
+msgid "%d tag"
+msgid_plural "%d tags"
+msgstr[0] "%d étiquette"
+msgstr[1] "%d étiquettes"
+
+#. translators: 1: formatted list count (e.g. "3 lists"), 2: formatted tag count (e.g. "5 tags")
+#: includes/abilities/crm/class-import-metadata.php:152
+#, php-format
+msgid "Synced %1$s and %2$s from CRM."
+msgstr "Synchronisé %1$s et %2$s depuis le CRM."
+
+#. translators: 1: number of primary fields, 2: number of custom fields
+#: includes/abilities/fields/class-get-contact-field.php:111
+#, php-format
+msgid "Found %1$d primary and %2$d custom field."
+msgid_plural "Found %1$d primary and %2$d custom fields."
+msgstr[0] "%1$d champ principal et %2$d champ personnalisé trouvés."
+msgstr[1] "%1$d champs principaux et %2$d champs personnalisés trouvés."
+
+#. translators: 1: number of fields, 2: item ID, 3: integration slug
+#: includes/abilities/integrations/class-get-item-field.php:139
+#, php-format
+msgid "Found %1$d field for item %2$s in \"%3$s\" integration."
+msgid_plural "Found %1$d fields for item %2$s in \"%3$s\" integration."
+msgstr[0] "%1$d champ trouvé pour l'élément %2$s dans l'intégration \"%3$s\"."
+msgstr[1] "%1$d champs trouvés pour l'élément %2$s dans l'intégration \"%3$s\"."
+
+#. translators: 1: number of items, 2: integration slug
+#: includes/abilities/integrations/class-list-integration-item.php:135
+#, php-format
+msgid "Found %1$d item for \"%2$s\" integration."
+msgid_plural "Found %1$d items for \"%2$s\" integration."
+msgstr[0] "%1$d élément trouvé pour l'intégration \"%2$s\"."
+msgstr[1] "%1$d éléments trouvés pour l'intégration \"%2$s\"."
+
+#. translators: %d: number of integrations
+#: includes/abilities/integrations/class-list-integration.php:156
+#, php-format
+msgid "Found %d integration."
+msgid_plural "Found %d integrations."
+msgstr[0] "%d intégration trouvée."
+msgstr[1] "%d intégrations trouvées."
+
+#. translators: %d: number of rules
+#: includes/abilities/rules/class-list-rule.php:172
+#, php-format
+msgid "Found %d integration rule."
+msgid_plural "Found %d integration rules."
+msgstr[0] "%d règle d'intégration trouvée."
+msgstr[1] "%d règles d'intégration trouvées."
+
+#. translators: %1$d: total stopped actions, %2$d: pending actions count, %3$d: running actions count
+#: includes/api-wp/class-bulk-sync-api.php:524
+#, php-format
+msgid "Job cancelled successfully. Stopped %1$d action (%2$d pending, %3$d running)."
+msgid_plural "Job cancelled successfully. Stopped %1$d actions (%2$d pending, %3$d running)."
+msgstr[0] "Tâche annulée avec succès. %1$d action arrêtée (%2$d en attente, %3$d en cours)."
+msgstr[1] "Tâche annulée avec succès. %1$d actions arrêtées (%2$d en attente, %3$d en cours)."
+
+#: includes/api-wp/class-lists-tags-api.php:95
+msgid "Optional search term to filter results."
+msgstr "Terme de recherche optionnel pour filtrer les résultats."
+
+#: includes/api-wp/class-rest-controller.php:246
+msgid "Name must be between 1 and 60 characters."
+msgstr "Le nom doit contenir entre 1 et 60 caractères."
+
+#: includes/api-wp/class-rest-controller.php:266
+#: includes/class-auth-manager.php:367
+msgid "A valid email address is required."
+msgstr "Une adresse e-mail valide est requise."
+
+#: includes/api-wp/class-rest-controller.php:293
+msgid "This site is already connected to SureContact."
+msgstr "Ce site est déjà connecté à SureContact."
+
+#: includes/api-wp/class-rest-controller.php:311
+msgid "Account created and connected to SureContact."
+msgstr "Compte créé et connecté à SureContact."
+
+#: includes/api/class-company-api.php:72
+msgid "Company name is required to create a company."
+msgstr "Le nom de l'entreprise est requis pour créer une entreprise."
+
+#: includes/api/class-company-api.php:104
+msgid "Company UUID is required to update a company."
+msgstr "L'UUID de l'entreprise est requis pour mettre à jour une entreprise."
+
+#: includes/api/class-company-api.php:137
+msgid "Company UUID is required to delete a company."
+msgstr "L'UUID de l'entreprise est requis pour supprimer une entreprise."
+
+#: includes/api/class-company-api.php:172
+#: includes/api/class-company-api.php:330
+msgid "Company and contact UUIDs are required."
+msgstr "Les UUID de l'entreprise et du contact sont requis."
+
+#: includes/api/class-company-api.php:233
+msgid "Company UUID and contact UUIDs are required."
+msgstr "L'UUID de l'entreprise et les UUID des contacts sont requis."
+
+#. translators: %d: maximum count
+#: includes/api/class-company-api.php:241
+#, php-format
+msgid "Bulk attach accepts at most %d contact UUIDs per call."
+msgstr "L'attache en masse accepte au maximum %d UUIDs de contact par appel."
+
+#: includes/api/class-company-api.php:284
+msgid "Contact UUID and company UUIDs are required."
+msgstr "L'UUID de contact et les UUIDs de l'entreprise sont requis."
+
+#. translators: %d: maximum count
+#: includes/api/class-company-api.php:292
+#, php-format
+msgid "Bulk attach accepts at most %d company UUIDs per call."
+msgstr "L'attache en masse accepte au maximum %d UUIDs d'entreprise par appel."
+
+#: includes/api/class-company-api.php:368
+msgid "Domain is required."
+msgstr "Le domaine est requis."
+
+#: includes/api/class-company-api.php:395
+msgid "Company name is required."
+msgstr "Le nom de l'entreprise est requis."
+
+#: includes/api/class-company-api.php:433
+#: includes/class-company-service.php:402
+msgid "Custom field name is required."
+msgstr "Le nom du champ personnalisé est requis."
+
+#: includes/api/class-company-api.php:465
+msgid "Company UUID is required."
+msgstr "L'UUID de l'entreprise est requis."
+
+#: includes/api/class-company-api.php:499
+#: includes/api/class-company-api.php:532
+msgid "Note UUID is required."
+msgstr "L'UUID de la note est requis."
+
+#: includes/class-auth-manager.php:359
+msgid "First and last name are required."
+msgstr "Le prénom et le nom de famille sont requis."
+
+#: includes/class-auth-manager.php:391
+msgid "Unable to prepare signup request. Please try again."
+msgstr "Impossible de préparer la demande d'inscription. Veuillez réessayer."
+
+#: includes/class-auth-manager.php:435
+msgid "Unable to create your SureContact account. Please try again."
+msgstr "Impossible de créer votre compte SureContact. Veuillez réessayer."
+
+#: includes/class-auth-manager.php:455
+#: includes/class-auth-manager.php:468
+msgid "Unexpected response from SureContact. Please try again."
+msgstr "Réponse inattendue de SureContact. Veuillez réessayer."
+
+#: includes/class-company-service.php:73
+msgid "Company was created but no UUID was returned by the API."
+msgstr "L'entreprise a été créée mais aucun UUID n'a été retourné par l'API."
+
+#: includes/class-company-service.php:242
+msgid "Note was created but no UUID was returned."
+msgstr "La note a été créée mais aucun UUID n'a été retourné."
+
+#: includes/integrations/class-cartflows-integration.php:166
+msgid "Pre-Checkout Offer"
+msgstr "Offre pré-achat"
+
+#: includes/integrations/class-cartflows-integration.php:1714
+#: includes/integrations/class-cartflows-integration.php:1965
+msgid "All Optin Pages"
+msgstr "Toutes les pages d'optin"
+
+#: includes/integrations/class-cartflows-integration.php:1879
+#: includes/integrations/class-cartflows-integration.php:1949
+msgid "All Pre-Checkout Offers"
+msgstr "Toutes les offres pré-achat"
+
+#: includes/integrations/class-cartflows-integration.php:1910
+#: includes/integrations/class-cartflows-integration.php:2014
+msgid "Untitled Checkout"
+msgstr "Vérification sans titre"
+
+#: includes/integrations/class-edd-integration.php:116
+#: includes/integrations/class-woocommerce-integration.php:330
+msgid "Enable Abandoned Cart Tracking"
+msgstr "Activer le suivi des paniers abandonnés"
+
+#: includes/integrations/class-edd-integration.php:117
+#: includes/integrations/class-woocommerce-integration.php:331
+msgid "Track abandoned carts and apply lists/tags to contacts who abandon their carts"
+msgstr "Suivre les paniers abandonnés et appliquer des listes/étiquettes aux contacts qui abandonnent leurs paniers"
+
+#: includes/integrations/class-edd-integration.php:123
+#: includes/integrations/class-woocommerce-integration.php:337
+msgid "Abandonment Threshold (minutes)"
+msgstr "Seuil d'abandon (minutes)"
+
+#: includes/integrations/class-edd-integration.php:124
+#: includes/integrations/class-woocommerce-integration.php:338
+msgid "Minutes of inactivity before a cart is considered abandoned (minimum 5, maximum 10080)"
+msgstr "Minutes d'inactivité avant qu'un panier soit considéré comme abandonné (minimum 5, maximum 10080)"
+
+#: includes/integrations/class-edd-integration.php:132
+#: includes/integrations/class-woocommerce-integration.php:346
+msgid "Abandoned Cart Lists"
+msgstr "Listes de paniers abandonnés"
+
+#: includes/integrations/class-edd-integration.php:133
+#: includes/integrations/class-woocommerce-integration.php:347
+msgid "Add contacts to these lists when their cart is abandoned"
+msgstr "Ajouter des contacts à ces listes lorsque leur panier est abandonné"
+
+#: includes/integrations/class-edd-integration.php:139
+#: includes/integrations/class-woocommerce-integration.php:353
+msgid "Abandoned Cart Tags"
+msgstr "Étiquettes de paniers abandonnés"
+
+#: includes/integrations/class-edd-integration.php:140
+#: includes/integrations/class-woocommerce-integration.php:354
+msgid "Apply these tags to contacts when their cart is abandoned"
+msgstr "Appliquer ces étiquettes aux contacts lorsque leur panier est abandonné"
+
+#: includes/integrations/class-edd-integration.php:146
+#: includes/integrations/class-woocommerce-integration.php:360
+msgid "Cart Data Retention (days)"
+msgstr "Conservation des données de panier (jours)"
+
+#: includes/integrations/class-edd-integration.php:147
+#: includes/integrations/class-woocommerce-integration.php:361
+msgid "Number of days to keep abandoned and recovered cart records before cleanup"
+msgstr "Nombre de jours pour garder les enregistrements de paniers abandonnés et récupérés avant nettoyage"
+
+#: includes/integrations/class-fluentcrm-company-sync.php:119
+msgid "Companies"
+msgstr "Entreprises"
+
+#: includes/integrations/class-fluentcrm-company-sync.php:120
+msgid "Synchronize all FluentCRM companies (and their contact links) to SureContact."
+msgstr "Synchroniser toutes les entreprises FluentCRM (et leurs liens de contact) avec SureContact."
+
+#: includes/integrations/class-fluentcrm-company-sync.php:137
+msgid "FluentCRM Company module is not available."
+msgstr "Le module entreprise FluentCRM n'est pas disponible."
+
+#: includes/integrations/class-fluentcrm-company-sync.php:146
+msgid "No companies to sync."
+msgstr "Aucune entreprise à synchroniser."
+
+#: includes/integrations/class-fluentcrm-company-sync.php:195
+msgid "Action Scheduler is not available."
+msgstr "Action Scheduler n'est pas disponible."
+
+#: includes/integrations/class-fluentcrm-company-sync.php:248
+msgid "Failed to retrieve job status."
+msgstr "Échec de la récupération de l'état du travail."
+
+#. translators: %s: contact ID returned by SureContact.
+#: includes/integrations/class-gravity-forms-integration.php:661
+#, php-format
+msgid "Synced (ID: %s)"
+msgstr "Synchronisé (ID : %s)"
+
+#: includes/integrations/class-jetformbuilder-integration.php:60
+msgid "Sync JetFormBuilder form submissions with per-form field mapping"
+msgstr "Synchroniser les soumissions de formulaires JetFormBuilder avec un mappage de champs par formulaire"
+
+#: includes/integrations/class-suremembers-integration.php:95
+msgid "Access Group ID"
+msgstr "ID du groupe d'accès"
+
+#: src/api/auth.js:50
+#: src/api/auth.js:62
+msgid "Unable to create your SureContact account."
+msgstr "Impossible de créer votre compte SureContact."
+
+#: src/api/queue.js:24
+msgid "IDs array is required and must not be empty"
+msgstr "Le tableau d'IDs est requis et ne doit pas être vide"
+
+#: src/components/AuthPage.jsx:67
+msgid "Capture leads with forms"
+msgstr "Capture des prospects avec des formulaires"
+
+#: src/components/AuthPage.jsx:68
+msgid "Beautiful popups, inline forms, and landing pages that convert WordPress visitors into subscribers."
+msgstr "Beaux popups, formulaires en ligne et pages d'atterrissage qui transforment les visiteurs WordPress en abonnés."
+
+#: src/components/AuthPage.jsx:72
+msgid "Don’t miss out"
+msgstr "Ne manquez pas"
+
+#: src/components/AuthPage.jsx:73
+msgid "Subscribe to get our weekly drops & member-only deals."
+msgstr "Abonnez-vous pour recevoir nos nouveautés hebdomadaires et des offres réservées aux membres."
+
+#: src/components/AuthPage.jsx:81
+msgid "Send campaigns that land"
+msgstr "Envoyez des campagnes qui fonctionnent"
+
+#: src/components/AuthPage.jsx:82
+msgid "Drag-and-drop email editor with 60+ templates. Send broadcasts, newsletters, and product updates."
+msgstr "Éditeur d'email par glisser-déposer avec plus de 60 modèles. Envoyez des diffusions, des newsletters et des mises à jour de produits."
+
+#: src/components/AuthPage.jsx:87
+msgid "New drop"
+msgstr "Nouvelle offre"
+
+#: src/components/AuthPage.jsx:93
+msgid "Cart back"
+msgstr "Rappel de panier"
+
+#: src/components/AuthPage.jsx:99
+#: src/components/AuthPage.jsx:117
+msgid "Welcome"
+msgstr "Bienvenue"
+
+#: src/components/AuthPage.jsx:107
+msgid "Automate your workflow"
+msgstr "Automatisez votre flux de travail"
+
+#: src/components/AuthPage.jsx:108
+msgid "Welcome series, abandoned carts, post-purchase follow-ups — running on autopilot."
+msgstr "Séries de bienvenue, paniers abandonnés, suivis après achat — fonctionnant en pilotage automatique."
+
+#: src/components/AuthPage.jsx:113
+msgid "Signup"
+msgstr "Inscription"
+
+#: src/components/AuthPage.jsx:121
+msgid "Wait 3d"
+msgstr "Attendre 3 jours"
+
+#: src/components/AuthPage.jsx:125
+msgid "Offer"
+msgstr "Offre"
+
+#: src/components/AuthPage.jsx:131
+msgid "Built-in lightweight CRM"
+msgstr "CRM léger intégré"
+
+#: src/components/AuthPage.jsx:132
+msgid "Custom fields, tags, segments and a full activity timeline for every contact you collect."
+msgstr "Champs personnalisés, étiquettes, segments et une chronologie d'activité complète pour chaque contact que vous collectez."
+
+#: src/components/AuthPage.jsx:154
+msgid "E-commerce integration"
+msgstr "Intégration e-commerce"
+
+#: src/components/AuthPage.jsx:189
+msgid "Secure & GDPR-ready"
+msgstr "Sécurisé & conforme au RGPD"
+
+#: src/components/AuthPage.jsx:190
+msgid "OAuth-based auth, encrypted connections, double opt-in, and full consent management built in."
+msgstr "Authentification basée sur OAuth, connexions cryptées, double opt-in et gestion complète du consentement intégrée."
+
+#: src/components/AuthPage.jsx:232
+msgid "Email marketing & CRM "
+msgstr "Email marketing & CRM "
+
+#: src/components/AuthPage.jsx:233
+msgid "built for WordPress"
+msgstr "conçu pour WordPress"
+
+#: src/components/AuthPage.jsx:236
+msgid "Turn your WordPress visitors into customers. Capture leads with forms, sync contacts in real-time, and send beautiful campaigns — all without leaving your dashboard."
+msgstr "Transformez vos visiteurs WordPress en clients. Capturez des leads avec des formulaires, synchronisez des contacts en temps réel et envoyez de belles campagnes — le tout sans quitter votre tableau de bord."
+
+#: src/components/AuthPage.jsx:245
+msgid "Already have an account?"
+msgstr "Vous avez déjà un compte ?"
+
+#: src/components/AuthPage.jsx:247
+msgid "Sign in"
+msgstr "Connectez-vous"
+
+#: src/components/AuthPage.jsx:271
+msgid "Features"
+msgstr "Fonctionnalités"
+
+#: src/components/AuthPage.jsx:274
+msgid "What if email marketing was "
+msgstr "Et si le marketing par email était "
+
+#: src/components/AuthPage.jsx:275
+msgid "actually easy"
+msgstr "vraiment facile"
+
+#: src/components/AuthPage.jsx:276
+msgid "?"
+msgstr "?"
+
+#: src/components/AuthPage.jsx:279
+msgid "SureContact gives you everything you need to grow a list, send beautiful emails, and automate your follow-ups — natively inside WordPress."
+msgstr "SureContact vous donne tout ce dont vous avez besoin pour développer une liste, envoyer de beaux emails et automatiser vos suivis — de manière native dans WordPress."
+
+#: src/components/AuthPage.jsx:311
+msgid "Get started in minutes"
+msgstr "Commencez en quelques minutes"
+
+#: src/components/AuthPage.jsx:314
+msgid "How it works"
+msgstr "Comment ça fonctionne"
+
+#: src/components/AuthPage.jsx:317
+msgid "From plugin activation to your first campaign — three steps, no friction."
+msgstr "De l'activation du plugin à votre première campagne — trois étapes, sans friction."
+
+#: src/components/AuthPage.jsx:324
+msgid "Confirm your details"
+msgstr "Confirmez vos détails"
+
+#: src/components/AuthPage.jsx:325
+msgid "Your name, email, and site URL are auto-filled from WordPress. Just confirm and continue — no signup form to fight with."
+msgstr "Votre nom, votre e-mail et l'URL de votre site sont remplis automatiquement à partir de WordPress. Il suffit de confirmer et de continuer — pas de formulaire d'inscription à gérer."
+
+#: src/components/AuthPage.jsx:328
+msgid "Sync your contacts"
+msgstr "Synchronisez vos contacts"
+
+#: src/components/AuthPage.jsx:329
+msgid "SureContact pulls in existing WP users, WooCommerce customers, and form submissions automatically. Two-way sync keeps everything fresh."
+msgstr "SureContact intègre automatiquement les utilisateurs WP existants, les clients WooCommerce et les soumissions de formulaires. La synchronisation bidirectionnelle garde tout à jour."
+
+#: src/components/AuthPage.jsx:332
+msgid "Send your first campaign"
+msgstr "Envoyez votre première campagne"
+
+#: src/components/AuthPage.jsx:333
+msgid "Pick a template, drag in a few blocks, hit send. Or set up a welcome automation that runs while you sleep."
+msgstr "Choisissez un modèle, glissez quelques blocs, appuyez sur envoyer. Ou mettez en place une automatisation de bienvenue qui fonctionne pendant votre sommeil."
+
+#: src/components/AuthPage.jsx:365
+msgid "SureContact "
+msgstr "SureContact "
+
+#: src/components/AuthPage.jsx:366
+msgid "already works"
+msgstr "fonctionne déjà"
+
+#: src/components/AuthPage.jsx:367
+msgid " with your favorite WordPress plugins"
+msgstr " avec vos plugins WordPress préférés"
+
+#: src/components/AuthPage.jsx:370
+msgid "Connect once. Sync everything. Out-of-the-box integrations with every major form, commerce, and theme plugin in the WordPress ecosystem."
+msgstr "Connectez-vous une fois. Synchronisez tout. Intégrations prêtes à l'emploi avec tous les principaux plugins de formulaire, de commerce et de thème de l'écosystème WordPress."
+
+#: src/components/AuthPage.jsx:396
+#, js-format
+msgid "+ %d more native integrations"
+msgstr "+ %d autres intégrations natives"
+
+#: src/components/AuthPage.jsx:408
+msgid "Testimonials"
+msgstr "Témoignages"
+
+#: src/components/AuthPage.jsx:411
+msgid "Trusted by WordPress teams worldwide"
+msgstr "Approuvé par des équipes WordPress dans le monde entier"
+
+#: src/components/AuthPage.jsx:414
+msgid "Over 12M+ sites use Brainstorm Force plugins to ship faster."
+msgstr "Plus de 12 millions de sites utilisent les plugins Brainstorm Force pour expédier plus rapidement."
+
+#: src/components/AuthPage.jsx:422
+#: src/components/AuthPage.jsx:440
+msgid "SureContact User"
+msgstr "Utilisateur de SureContact"
+
+#: src/components/AuthPage.jsx:423
+msgid "SureContact is on another level. I love that the heavy lifting happens outside WordPress, and the connector syncing multiple sites into one dashboard is exactly what I needed. I’ve finally ditched MailerLite."
+msgstr "SureContact est d'un autre niveau. J'adore que le travail lourd se fasse en dehors de WordPress, et le connecteur synchronisant plusieurs sites dans un seul tableau de bord est exactement ce qu'il me fallait. J'ai enfin abandonné MailerLite."
+
+#: src/components/AuthPage.jsx:428
+msgid "Founder, Hillman Academy"
+msgstr "Fondateur, Hillman Academy"
+
+#: src/components/AuthPage.jsx:429
+msgid "You guys are the GOAT! The speed of implementation is unchallenged to any other software provider I’ve ever used. Simply Amazing! Thanks, I’ll get started with setting everything up using Mailersend now."
+msgstr "Vous êtes les meilleurs ! La rapidité d'implémentation n'a pas d'égal avec tout autre fournisseur de logiciel que j'ai jamais utilisé. Tout simplement incroyable ! Merci, je vais commencer à tout configurer avec Mailersend maintenant."
+
+#: src/components/AuthPage.jsx:434
+msgid "Founder, EDITO Sarl"
+msgstr "Fondateur, EDITO Sarl"
+
+#: src/components/AuthPage.jsx:435
+msgid "Incredibly fast and responsive support. List-Unsubscribe and List-Unsubscribe-Post headers were implemented immediately, and everything worked perfectly in testing."
+msgstr "Support incroyablement rapide et réactif. Les en-têtes List-Unsubscribe et List-Unsubscribe-Post ont été mis en œuvre immédiatement, et tout a parfaitement fonctionné lors des tests."
+
+#: src/components/AuthPage.jsx:441
+msgid "SureContact’s connector-based implementation is way better than MailerPress. No comparison."
+msgstr "L'implémentation basée sur le connecteur de SureContact est bien meilleure que MailerPress. Aucune comparaison."
+
+#: src/components/AuthPage.jsx:446
+msgid "Demo Queen"
+msgstr "Demo Queen"
+
+#: src/components/AuthPage.jsx:447
+msgid "I expected SureContact to be a nice-to-have. 67 minutes later, I loved it. It feels like OttoKit’s answer to email."
+msgstr "Je m'attendais à ce que SureContact soit un complément. 67 minutes plus tard, je l'adorais. On dirait la réponse d'OttoKit à l'e-mail."
+
+#: src/components/AuthPage.jsx:453
+msgid "Does exactly what it promises. The focus is squarely on conversion and user experience. The team behind the plugin consistently proves they understand entrepreneurial needs, and their support is top-tier."
+msgstr "Fait exactement ce qu'il promet. L'accent est clairement mis sur la conversion et l'expérience utilisateur. L'équipe derrière le plugin prouve constamment qu'elle comprend les besoins des entrepreneurs, et leur support est de premier ordre."
+
+#: src/components/AuthPage.jsx:489
+msgid "Trusted by 12M+ businesses"
+msgstr "Approuvé par plus de 12 millions d'entreprises"
+
+#: src/components/AuthPage.jsx:500
+msgid "Ready to grow your list?"
+msgstr "Prêt à développer votre liste ?"
+
+#: src/components/AuthPage.jsx:503
+msgid "Join 12M+ WordPress sites already using SureContact to capture, nurture, and convert their visitors."
+msgstr "Rejoignez plus de 12 millions de sites WordPress utilisant déjà SureContact pour capturer, nourrir et convertir leurs visiteurs."
+
+#: src/components/AuthPage.jsx:508
+msgid "Get started"
+msgstr "Commencez"
+
+#: src/components/SignupForm.jsx:22
+msgid "Account created!"
+msgstr "Compte créé !"
+
+#: src/components/SignupForm.jsx:23
+msgid "Connecting your site to SureContact…"
+msgstr "Connexion de votre site à SureContact…"
+
+#: src/components/SignupForm.jsx:33
+msgid "This email already has an account."
+msgstr "Cet e-mail a déjà un compte."
+
+#: src/components/SignupForm.jsx:34
+msgid "Use the “Sign in” link below to connect this site."
+msgstr "Utilisez le lien « Se connecter » ci-dessous pour connecter ce site."
+
+#: src/components/SignupForm.jsx:41
+msgid "We couldn’t reach your site to verify the install."
+msgstr "Nous n'avons pas pu atteindre votre site pour vérifier l'installation."
+
+#: src/components/SignupForm.jsx:42
+msgid "Check that your site is publicly accessible and try again."
+msgstr "Vérifiez que votre site est accessible publiquement et réessayez."
+
+#: src/components/SignupForm.jsx:49
+msgid "That email address isn’t valid."
+msgstr "Cette adresse e-mail n'est pas valide."
+
+#: src/components/SignupForm.jsx:57
+msgid "Too many attempts."
+msgstr "Trop de tentatives."
+
+#: src/components/SignupForm.jsx:58
+msgid "Please wait a minute and try again."
+msgstr "Veuillez patienter une minute et réessayer."
+
+#: src/components/SignupForm.jsx:64
+msgid "Something went wrong."
+msgstr "Quelque chose a mal tourné."
+
+#: src/components/SignupForm.jsx:65
+msgid "Please try again."
+msgstr "Veuillez réessayer."
+
+#: src/components/SignupForm.jsx:77
+msgid "First name is required."
+msgstr "Le prénom est requis."
+
+#: src/components/SignupForm.jsx:79
+#: src/components/SignupForm.jsx:85
+msgid "Must be 60 characters or fewer."
+msgstr "Doit contenir 60 caractères ou moins."
+
+#: src/components/SignupForm.jsx:83
+msgid "Last name is required."
+msgstr "Le nom de famille est requis."
+
+#: src/components/SignupForm.jsx:89
+msgid "Email is required."
+msgstr "L'e-mail est requis."
+
+#: src/components/SignupForm.jsx:91
+msgid "Enter a valid email address."
+msgstr "Entrez une adresse e-mail valide."
+
+#: src/components/SignupForm.jsx:115
+msgid "First name"
+msgstr "Prénom"
+
+#: src/components/SignupForm.jsx:122
+msgid "e.g., Jane"
+msgstr "p. ex., Jane"
+
+#: src/components/SignupForm.jsx:132
+msgid "Last name"
+msgstr "Nom de famille"
+
+#: src/components/SignupForm.jsx:139
+msgid "e.g., Doe"
+msgstr "p. ex., Doe"
+
+#: src/components/SignupForm.jsx:151
+msgid "Work email"
+msgstr "E-mail professionnel"
+
+#: src/components/SignupForm.jsx:159
+msgid "e.g., you@company.com"
+msgstr "p. ex., vous@entreprise.com"
+
+#: src/components/SignupForm.jsx:177
+msgid "Connecting…"
+msgstr "Connexion…"
+
+#: src/components/SignupForm.jsx:179
+msgid "Creating your account…"
+msgstr "Création de votre compte…"
+
+#: src/components/SignupForm.jsx:180
+msgid "Create Account & Connect"
+msgstr "Créer un compte et se connecter"
+
+#: src/screens/logs/components/LogsHeader.jsx:78
+msgid "Retry All Failed?"
+msgstr "Réessayer toutes les erreurs ?"
+
+#: src/screens/logs/components/LogsHeader.jsx:82
+msgid "This will reset all failed and errored entries and queue them for retry via background processing."
+msgstr "Cela réinitialisera toutes les entrées échouées et comportant des erreurs et les mettra en attente pour réessai via le traitement en arrière-plan."
+
+#: src/screens/logs/components/LogsHeader.jsx:104
+msgid "Retrying…"
+msgstr "Réessai…"
+
+#: src/screens/logs/components/LogsHeader.jsx:104
+msgid "Retry All"
+msgstr "Réessayer tout"
+
+#: src/screens/sync-contacts/JobHistory.jsx:35
+#: src/screens/sync-contacts/JobProgress.jsx:93
+msgid "Total Companies"
+msgstr "Total des entreprises"
+
+#: src/screens/sync-contacts/JobHistory.jsx:37
+#: src/screens/sync-contacts/JobProgress.jsx:105
+msgid "Linked Contacts"
+msgstr "Contacts liendés"

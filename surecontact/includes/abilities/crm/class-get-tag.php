@@ -119,7 +119,7 @@ WORKFLOW:
 		return $this->success(
 			sprintf(
 				/* translators: %d: number of tags found */
-				__( 'Found %d tag(s).', 'surecontact' ),
+				_n( 'Found %d tag.', 'Found %d tags.', count( $tags ), 'surecontact' ),
 				count( $tags )
 			),
 			[

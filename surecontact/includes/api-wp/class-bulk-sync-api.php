@@ -521,7 +521,7 @@ class Bulk_Sync_Api extends Api_Base {
 		$total_stopped = $cancelled_count + $failed_count;
 		$message       = sprintf(
 			/* translators: %1$d: total stopped actions, %2$d: pending actions count, %3$d: running actions count */
-			__( 'Job cancelled successfully. Stopped %1$d action(s) (%2$d pending, %3$d running).', 'surecontact' ),
+			_n( 'Job cancelled successfully. Stopped %1$d action (%2$d pending, %3$d running).', 'Job cancelled successfully. Stopped %1$d actions (%2$d pending, %3$d running).', $total_stopped, 'surecontact' ),
 			$total_stopped,
 			$cancelled_count,
 			$failed_count

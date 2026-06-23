@@ -119,7 +119,7 @@ WORKFLOW:
 		return $this->success(
 			sprintf(
 				/* translators: %d: number of lists found */
-				__( 'Found %d list(s).', 'surecontact' ),
+				_n( 'Found %d list.', 'Found %d lists.', count( $lists ), 'surecontact' ),
 				count( $lists )
 			),
 			[
