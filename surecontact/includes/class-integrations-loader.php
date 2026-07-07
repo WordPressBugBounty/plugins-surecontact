@@ -222,6 +222,14 @@ class Integrations_Loader {
 				'dependency'  => 'Jet_Form_Builder\\Plugin',
 				'plugin_file' => 'jetformbuilder/jet-form-builder.php',
 			),
+			'ws-form'                => array(
+				'name'        => 'WS Form',
+				'class'       => 'SureContact\\Integrations\\WSForms_Integration',
+				'file'        => 'class-wsforms-integration.php',
+				'dependency'  => 'WS_Form_Form',
+				'plugin_file' => 'ws-form/ws-form.php',
+				'icon_url'    => SURECONTACT_PLUGIN_URL . 'assets/images/brands/icons/WSForm.svg',
+			),
 		);
 
 		// Capture internal slugs before applying the filter so we can distinguish

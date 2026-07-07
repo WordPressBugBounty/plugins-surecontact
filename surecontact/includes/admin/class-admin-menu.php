@@ -129,12 +129,9 @@ class Admin_Menu {
 			SURECONTACT_VERSION
 		);
 
-		// Enqueue WordPress dependencies.
-		wp_enqueue_script( 'wp-element' );
-		wp_enqueue_script( 'wp-i18n' );
-		wp_enqueue_script( 'wp-api-fetch' );
-
-		// Enqueue React app.
+		// Enqueue the React app. wp-element declares react and react-dom as its
+		// dependencies, so WordPress loads the React runtime automatically and the
+		// bundle never ships its own copy.
 		wp_enqueue_script(
 			'surecontact-admin',
 			SURECONTACT_PLUGIN_URL . 'assets/js/admin.js',
