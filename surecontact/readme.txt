@@ -2,9 +2,9 @@
 Contributors: brainstormforce
 Tags: crm, email marketing, newsletter, ecommerce, email automation
 Requires at least: 5.8
-Tested up to: 7.0
+Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.3
+Stable tag: 1.5.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,9 @@ You can report the issue through our [Bug Bounty Program](https://brainstormforc
 4. App Email Templates
 
 == Changelog ==
+
+= 1.5.4 - 19th August 2026 =
+* Improvement: Added compatibility with WordPress 7.1.
 
 = 1.5.3 - 7th July 2026 =
 * New: Added WS Form integration for lead capture.
