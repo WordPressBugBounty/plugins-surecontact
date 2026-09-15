@@ -70,12 +70,14 @@ class Field_Formatter {
 	 * Format field value based on field name patterns
 	 *
 	 * @since 0.0.3
+	 * @since 1.5.5 Accepts the source date format for name-matched date fields.
 	 *
-	 * @param mixed  $value     Raw field value.
-	 * @param string $field_name Field name.
+	 * @param mixed  $value         Raw field value.
+	 * @param string $field_name    Field name.
+	 * @param string $source_format Optional PHP date format the value was submitted in (e.g. 'd/m/Y').
 	 * @return mixed Formatted value
 	 */
-	public static function format_field_value( $value, $field_name ) {
+	public static function format_field_value( $value, $field_name, $source_format = '' ) {
 		// Preserve boolean values (for checkbox fields).
 		if ( is_bool( $value ) ) {
 			return $value;
@@ -105,7 +107,7 @@ class Field_Formatter {
 		}
 
 		if ( strpos( $field_name_lower, 'date' ) !== false || strpos( $field_name_lower, 'birth' ) !== false ) {
-			return self::format_date( $value );
+			return self::format_date( $value, $source_format );
 		}
 
 		return sanitize_text_field( $value );
@@ -115,13 +117,15 @@ class Field_Formatter {
 	 * Format value based on field type (for global field mapping)
 	 *
 	 * @since 0.0.3
+	 * @since 1.5.5 Accepts the source date format for date, datetime and timestamp fields.
 	 *
-	 * @param mixed  $value      Raw value.
-	 * @param string $field_type Field type.
-	 * @param string $field_key  Optional field key for special handling.
+	 * @param mixed  $value         Raw value.
+	 * @param string $field_type    Field type.
+	 * @param string $field_key     Optional field key for special handling.
+	 * @param string $source_format Optional PHP date format the value was submitted in (e.g. 'd/m/Y').
 	 * @return mixed Formatted value
 	 */
-	public static function format_value_by_type( $value, $field_type, $field_key = '' ) {
+	public static function format_value_by_type( $value, $field_type, $field_key = '', $source_format = '' ) {
 		// Some integrations (e.g., SureForms, WPForms) send single-value fields as arrays.
 		// Normalize indexed arrays (list of values) to a scalar string.
 		// Preserve: multiselect arrays (expected), associative arrays (non-numeric keys, e.g. Carbon datetime).
@@ -145,11 +149,11 @@ class Field_Formatter {
 
 		switch ( $field_type ) {
 			case 'date':
-				return self::format_date( $value );
+				return self::format_date( $value, $source_format );
 
 			case 'datetime':
 			case 'timestamp':
-				return self::format_datetime( $value );
+				return self::format_datetime( $value, $source_format );
 
 			case 'email':
 				return self::format_email( $value );
@@ -243,11 +247,25 @@ class Field_Formatter {
 	 * Format date to Y-m-d (YYYY-MM-DD) format
 	 *
 	 * @since 0.0.3
+	 * @since 1.5.5 Accepts the source format so slash-separated dates are no longer guessed as m/d/Y.
 	 *
-	 * @param string $date Date string.
-	 * @return string Formatted date or original
+	 * @param string $date          Date string.
+	 * @param string $source_format Optional PHP date format the value was submitted in (e.g. 'd/m/Y').
+	 * @return string Formatted date, or empty string when the value cannot be resolved
 	 */
-	private static function format_date( $date ) {
+	private static function format_date( $date, $source_format = '' ) {
+		// Carbon/DateTime objects and their serialized array form reach date fields
+		// too (FluentCRM, Eloquent); format_datetime() already unwraps them.
+		if ( is_object( $date ) || is_array( $date ) ) {
+			$date = self::format_datetime( $date );
+		}
+
+		$date = is_scalar( $date ) ? trim( (string) $date ) : '';
+
+		if ( '' === $date ) {
+			return '';
+		}
+
 		// If already in date format (YYYY-MM-DD), return as-is.
 		if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $date ) ) {
 			return $date;
@@ -258,24 +276,166 @@ class Field_Formatter {
 			return substr( $date, 0, 10 );
 		}
 
-		// Try to parse and format.
+		// Parse using the format the source field declared, when the integration knows it.
+		$declared = self::parse_with_source_format( $date, $source_format );
+		if ( $declared instanceof \DateTimeImmutable ) {
+			return $declared->format( 'Y-m-d' );
+		}
+
+		// Resolve numeric dates here: strtotime() reads every slash-separated date as
+		// American m/d/Y, which transposes day and month for dd/mm/yyyy input.
+		$numeric = self::parse_numeric_date( $date );
+		if ( '' !== $numeric ) {
+			return $numeric;
+		}
+
+		// Textual dates ('January 15, 2025') and ISO 8601 are unambiguous to strtotime().
 		$timestamp = strtotime( $date );
 		if ( $timestamp ) {
 			return gmdate( 'Y-m-d', $timestamp );
 		}
 
-		return $date;
+		// Dropping the value keeps the existing date intact; passing a non-ISO string
+		// through would write it into a date column as-is.
+		Logger::warning(
+			'Field Formatter',
+			'Unable to resolve date value - omitting it from the payload.',
+			array(
+				'value'         => $date,
+				'source_format' => $source_format,
+			)
+		);
+
+		return '';
+	}
+
+	/**
+	 * Parse a value using the format its source field declared
+	 *
+	 * Strict on purpose: DateTime::createFromFormat() otherwise rolls invalid dates
+	 * over silently, turning 25/13/2026 into 2027-01-25.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $value         Raw value.
+	 * @param string $source_format PHP date format (e.g. 'd/m/Y').
+	 * @return \DateTimeImmutable|null Parsed date, or null when the value does not match
+	 */
+	private static function parse_with_source_format( $value, $source_format ) {
+		if ( ! is_string( $source_format ) || '' === $source_format ) {
+			return null;
+		}
+
+		$parsed = self::strict_create_from_format( $source_format, $value );
+		if ( $parsed instanceof \DateTimeImmutable ) {
+			return $parsed;
+		}
+
+		// The picker can emit a different separator than the format declares, so
+		// retry once with both normalised.
+		$separators = array( '-', '.' );
+
+		return self::strict_create_from_format(
+			str_replace( $separators, '/', $source_format ),
+			str_replace( $separators, '/', $value )
+		);
+	}
+
+	/**
+	 * Create a date from a format, rejecting anything PHP had to correct
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $format PHP date format.
+	 * @param string $value  Raw value.
+	 * @return \DateTimeImmutable|null Parsed date, or null on any warning or error
+	 */
+	private static function strict_create_from_format( $format, $value ) {
+		$parsed = \DateTimeImmutable::createFromFormat( '!' . $format, $value );
+		if ( ! $parsed instanceof \DateTimeImmutable ) {
+			return null;
+		}
+
+		$errors = \DateTimeImmutable::getLastErrors();
+		if ( is_array( $errors ) && ( ! empty( $errors['warning_count'] ) || ! empty( $errors['error_count'] ) ) ) {
+			return null;
+		}
+
+		return $parsed;
+	}
+
+	/**
+	 * Resolve a purely numeric date (07/09/2026, 07-09-2026, 2026/09/07) to Y-m-d
+	 *
+	 * Where one component is above 12 the order is unambiguous and resolved here.
+	 * Where it is genuinely ambiguous PHP's own separator convention is kept, so
+	 * existing m/d/Y forms are unaffected - integrations should declare a source
+	 * format to remove the guess entirely.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $date Date string.
+	 * @return string Y-m-d date, or empty string when this is not a resolvable numeric date
+	 */
+	private static function parse_numeric_date( $date ) {
+		if ( ! preg_match( '#^(\d{1,4})([/.\-])(\d{1,2})\2(\d{1,4})$#', $date, $matches ) ) {
+			return '';
+		}
+
+		$first     = (int) $matches[1];
+		$separator = $matches[2];
+		$middle    = (int) $matches[3];
+		$last      = (int) $matches[4];
+
+		// Year first (YYYY-MM-DD, YYYY/MM/DD) is unambiguous.
+		if ( 4 === strlen( $matches[1] ) ) {
+			return self::build_date( $first, $middle, $last );
+		}
+
+		// Two digit years stay with strtotime() rather than guessing a century.
+		if ( 4 !== strlen( $matches[4] ) ) {
+			return '';
+		}
+
+		// Only one of the two leading components can be a month. Where both are
+		// ambiguous, keep PHP's own convention: '/' reads month first, '-' and
+		// '.' read day first. build_date() rejects whatever is left impossible.
+		$month_first = $middle > 12 || ( $first <= 12 && '/' === $separator );
+
+		return $month_first
+			? self::build_date( $last, $first, $middle )
+			: self::build_date( $last, $middle, $first );
+	}
+
+	/**
+	 * Build a Y-m-d string from date parts
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param int $year  Year.
+	 * @param int $month Month.
+	 * @param int $day   Day.
+	 * @return string Y-m-d date, or empty string when the parts are not a real date
+	 */
+	private static function build_date( $year, $month, $day ) {
+		if ( ! checkdate( $month, $day, $year ) ) {
+			return '';
+		}
+
+		return sprintf( '%04d-%02d-%02d', $year, $month, $day );
 	}
 
 	/**
 	 * Format datetime to Y-m-d H:i:s format
 	 *
 	 * @since 0.0.3
+	 * @since 1.5.5 Accepts the source format so slash-separated dates are no longer guessed as m/d/Y.
 	 *
-	 * @param string $datetime Datetime string.
-	 * @return string Formatted datetime or original
+	 * @param string $datetime      Datetime string.
+	 * @param string $source_format Optional PHP date format the value was submitted in (e.g. 'd/m/Y H:i').
+	 * @return string Formatted datetime, or empty string when a string value cannot be resolved
 	 */
-	private static function format_datetime( $datetime ) {
+	private static function format_datetime( $datetime, $source_format = '' ) {
 		// Handle null or empty values.
 		if ( $datetime === null || $datetime === '' ) {
 			return $datetime;
@@ -307,12 +467,49 @@ class Field_Formatter {
 			return $datetime;
 		}
 
+		if ( is_string( $datetime ) ) {
+			$datetime = trim( $datetime );
+
+			// Parse using the format the source field declared, when the integration knows it.
+			$declared = self::parse_with_source_format( $datetime, $source_format );
+			if ( $declared instanceof \DateTimeImmutable ) {
+				return $declared->format( 'Y-m-d H:i:s' );
+			}
+
+			// Resolve the date half here so a dd/mm/yyyy value is not read as m/d/Y.
+			if ( preg_match( '#^(\d{1,4}[/.\-]\d{1,2}[/.\-]\d{1,4})(?:[T\s]+(.*))?$#', $datetime, $matches ) ) {
+				$date_part = self::parse_numeric_date( $matches[1] );
+				if ( '' !== $date_part ) {
+					$time_part = isset( $matches[2] ) ? trim( $matches[2] ) : '';
+					$timestamp = strtotime( '' === $time_part ? $date_part : $date_part . ' ' . $time_part );
+					if ( $timestamp ) {
+						return gmdate( 'Y-m-d H:i:s', $timestamp );
+					}
+				}
+			}
+		}
+
 		// Try to parse and format.
 		if ( is_string( $datetime ) || is_numeric( $datetime ) ) {
 			$timestamp = strtotime( $datetime );
 			if ( $timestamp ) {
 				return gmdate( 'Y-m-d H:i:s', $timestamp );
 			}
+		}
+
+		if ( is_string( $datetime ) ) {
+			// Dropping the value keeps the existing datetime intact; passing a non-ISO
+			// string through would write it into a datetime column as-is.
+			Logger::warning(
+				'Field Formatter',
+				'Unable to resolve datetime value - omitting it from the payload.',
+				array(
+					'value'         => $datetime,
+					'source_format' => $source_format,
+				)
+			);
+
+			return '';
 		}
 
 		return $datetime;

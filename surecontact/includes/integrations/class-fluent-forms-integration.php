@@ -29,6 +29,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 class Fluent_Forms_Integration extends Base_Integration {
 
 	/**
+	 * Form ID currently being processed
+	 *
+	 * @since 1.5.5
+	 *
+	 * @var int
+	 */
+	private $current_form_id = 0;
+
+	/**
+	 * Date formats for the current form, keyed by field name
+	 *
+	 * Null until loaded, so forms without a mapped date field never trigger the lookup.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @var array|null
+	 */
+	private $current_form_field_formats = null;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 0.0.3
@@ -156,6 +176,9 @@ class Fluent_Forms_Integration extends Base_Integration {
 		if ( empty( $field_mapping ) ) {
 			Logger::warning( 'Fluent Forms Integration', "Form {$form_id} has no field mapping configured. Attempting auto-detection." );
 		}
+
+		$this->current_form_id            = $form_id;
+		$this->current_form_field_formats = null;
 
 		$submission_data = is_array( $form_data ) ? $form_data : array();
 		$contact_data    = $this->format_field_mapping_data( $field_mapping, $submission_data );
@@ -405,11 +428,19 @@ class Fluent_Forms_Integration extends Base_Integration {
 
 				$field_label = $this->get_field_label( $settings, $attributes, $field_name );
 
-				$fields[] = array(
+				$field = array(
 					'id'    => $field_name,
 					'label' => $field_label,
 					'type'  => $element,
 				);
+
+				// Fluent Forms stores date_format as a PHP format string and submits
+				// the value in it, so carry it through rather than guessing later.
+				if ( 'input_date' === $element && ! empty( $settings['date_format'] ) ) {
+					$field['date_format'] = $settings['date_format'];
+				}
+
+				$fields[] = $field;
 			}
 
 			return $fields;
@@ -421,6 +452,37 @@ class Fluent_Forms_Integration extends Base_Integration {
 			);
 			return array();
 		}
+	}
+
+	/**
+	 * Get the date format a form field submits its value in
+	 *
+	 * Loaded lazily: only date-mapped fields ask for it, so forms without one
+	 * never pay for the lookup.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $form_field Form field key.
+	 * @return string PHP date format (e.g. 'd/m/Y'), or empty string when unknown
+	 */
+	protected function get_field_source_format( $form_field ) {
+		if ( ! $this->current_form_id ) {
+			return '';
+		}
+
+		if ( null === $this->current_form_field_formats ) {
+			$this->current_form_field_formats = array();
+
+			foreach ( $this->get_item_fields( (string) $this->current_form_id ) as $field ) {
+				if ( ! empty( $field['id'] ) && ! empty( $field['date_format'] ) ) {
+					// Fluent Forms stores PHP format strings apart from the flatpickr
+					// 'K' meridiem token, which PHP spells 'A'.
+					$this->current_form_field_formats[ $field['id'] ] = str_replace( 'K', 'A', $field['date_format'] );
+				}
+			}
+		}
+
+		return $this->current_form_field_formats[ $form_field ] ?? '';
 	}
 
 	/**

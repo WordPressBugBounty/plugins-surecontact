@@ -348,12 +348,14 @@ abstract class Base_Integration {
 				// Only exclude null (field not found in submission).
 				// Include all other values: strings, booleans (including false), arrays (including empty), numbers (including 0).
 				if ( $value !== null ) {
+					$source_format = $this->resolve_date_source_format( $form_field, $crm_field, $crm_field_types[ $crm_field ] ?? '' );
+
 					// Apply type-based formatting if field type is known, otherwise use name-based formatting.
 					if ( isset( $crm_field_types[ $crm_field ] ) ) {
 						// Pass $crm_field as third parameter for field-specific validation (gender, prefix, suffix).
-						$formatted_value = Field_Formatter::format_value_by_type( $value, $crm_field_types[ $crm_field ], $crm_field );
+						$formatted_value = Field_Formatter::format_value_by_type( $value, $crm_field_types[ $crm_field ], $crm_field, $source_format );
 					} else {
-						$formatted_value = Field_Formatter::format_field_value( $value, $crm_field );
+						$formatted_value = Field_Formatter::format_field_value( $value, $crm_field, $source_format );
 					}
 
 					// Always include mapped fields to ensure backend can override existing values.
@@ -365,6 +367,67 @@ abstract class Base_Integration {
 		}
 
 		return $contact_data;
+	}
+
+	/**
+	 * Resolve the date format a form field submits its value in
+	 *
+	 * Only date-like CRM fields need this. Without it the formatter has to guess,
+	 * and strtotime() reads every slash-separated date as American m/d/Y.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $form_field      Form field key.
+	 * @param string $crm_field       CRM field key.
+	 * @param string $crm_field_type  CRM field type, empty when unknown.
+	 * @return string PHP date format (e.g. 'd/m/Y'), or empty string when unknown
+	 */
+	protected function resolve_date_source_format( $form_field, $crm_field, $crm_field_type ) {
+		$date_types = array( 'date', 'datetime', 'timestamp' );
+
+		// An unknown type falls back to name-based formatting, which also formats dates.
+		if ( '' !== $crm_field_type && ! in_array( $crm_field_type, $date_types, true ) ) {
+			return '';
+		}
+
+		/**
+		 * Filters the PHP date format a form field submits its value in.
+		 *
+		 * Integrations that know the declared format supply it through
+		 * get_field_source_format(). Use this filter for the ones that do not.
+		 *
+		 * @since 1.5.5
+		 *
+		 * @param string $source_format PHP date format (e.g. 'd/m/Y'), empty when unknown.
+		 * @param string $form_field    Form field key.
+		 * @param string $crm_field     CRM field key.
+		 * @param string $slug          Integration slug.
+		 */
+		$source_format = apply_filters(
+			'surecontact_date_source_format',
+			$this->get_field_source_format( $form_field ),
+			$form_field,
+			$crm_field,
+			$this->slug
+		);
+
+		return is_string( $source_format ) ? $source_format : '';
+	}
+
+	/**
+	 * Get the date format a form field submits its value in
+	 *
+	 * Integrations that can read the declared format of a date field should
+	 * override this. Returning an empty string leaves the formatter to resolve
+	 * the value on its own.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $form_field Form field key.
+	 * @return string PHP date format (e.g. 'd/m/Y'), or empty string when unknown
+	 */
+	protected function get_field_source_format( $form_field ) { // phpcs:ignore Generic.CodeAnalysis.UnusedFunctionParameter.Found -- $form_field is used by the child implementations.
+		return '';
 	}
 
 	/**

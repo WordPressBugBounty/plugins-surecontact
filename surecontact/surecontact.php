@@ -3,7 +3,7 @@
  * Plugin Name: SureContact – Newsletters, Email Marketing, Automation, Revenue Tracking & CRM
  * Plugin URI: https://surecontact.com
  * Description: Send newsletters, set up email automations, manage contacts and track ecommerce revenue in a CRM for WordPress.
- * Version: 1.5.4
+ * Version: 1.5.5
  * Author: SureContact
  * Author URI: https://profiles.wordpress.org/brainstormforce/
  * License: GPLv2 or later
@@ -59,7 +59,7 @@ final class SureContact {
 	 *
 	 * @var string
 	 */
-	const VERSION = '1.5.4';
+	const VERSION = '1.5.5';
 
 	/**
 	 * Plugin singleton instance

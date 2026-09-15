@@ -47,6 +47,15 @@ class SureForms_Integration extends Base_Integration {
 	private $current_form_field_types = array();
 
 	/**
+	 * Date formats for current submission
+	 *
+	 * @since 1.5.5
+	 *
+	 * @var array Associative array of field_id => PHP date format
+	 */
+	private $current_form_field_formats = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @since 0.0.1
@@ -262,7 +271,8 @@ class SureForms_Integration extends Base_Integration {
 	 * @return void
 	 */
 	private function load_field_types_for_form( $form_id ) {
-		$this->current_form_field_types = array();
+		$this->current_form_field_types   = array();
+		$this->current_form_field_formats = array();
 
 		$fields = $this->get_item_fields( (string) $form_id );
 		if ( empty( $fields ) ) {
@@ -270,8 +280,14 @@ class SureForms_Integration extends Base_Integration {
 		}
 
 		foreach ( $fields as $field ) {
-			if ( isset( $field['id'] ) && isset( $field['type'] ) ) {
-				$this->current_form_field_types[ $field['id'] ] = $field['type'];
+			if ( ! isset( $field['id'] ) || ! isset( $field['type'] ) ) {
+				continue;
+			}
+
+			$this->current_form_field_types[ $field['id'] ] = $field['type'];
+
+			if ( ! empty( $field['date_format'] ) ) {
+				$this->current_form_field_formats[ $field['id'] ] = self::to_php_date_format( $field['date_format'] );
 			}
 		}
 	}
@@ -285,25 +301,76 @@ class SureForms_Integration extends Base_Integration {
 	 * @return string|null Field type or null if not found
 	 */
 	private function get_field_type( $field_key ) {
-		if ( isset( $this->current_form_field_types[ $field_key ] ) ) {
-			return $this->current_form_field_types[ $field_key ];
-		}
+		$resolved_key = $this->resolve_field_key( $field_key );
+
+		return null !== $resolved_key ? $this->current_form_field_types[ $resolved_key ] : null;
+	}
+
+	/**
+	 * Resolve a field key against the loaded form fields
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $field_key Field key.
+	 * @return string|null Matching key from the loaded fields, or null when not found
+	 */
+	private function resolve_field_key( $field_key ) {
+		$keys_to_try = array( $field_key );
 
 		// Try without 'srfm-' prefix.
 		if ( strpos( $field_key, 'srfm-' ) === 0 ) {
-			$short_key = substr( $field_key, 5 );
-			if ( isset( $this->current_form_field_types[ $short_key ] ) ) {
-				return $this->current_form_field_types[ $short_key ];
-			}
+			$keys_to_try[] = substr( $field_key, 5 );
 		}
 
 		// Try with 'srfm-' prefix.
-		$prefixed_key = 'srfm-' . $field_key;
-		if ( isset( $this->current_form_field_types[ $prefixed_key ] ) ) {
-			return $this->current_form_field_types[ $prefixed_key ];
+		$keys_to_try[] = 'srfm-' . $field_key;
+
+		foreach ( $keys_to_try as $key ) {
+			if ( isset( $this->current_form_field_types[ $key ] ) ) {
+				return $key;
+			}
 		}
 
 		return null;
+	}
+
+	/**
+	 * Get the date format a form field submits its value in
+	 *
+	 * The date picker submits its value in the author-configured display format,
+	 * so the format has to travel with the value or dd/mm/yyyy input is read as m/d/Y.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $form_field Form field key.
+	 * @return string PHP date format (e.g. 'd/m/Y'), or empty string when unknown
+	 */
+	protected function get_field_source_format( $form_field ) {
+		$resolved_key = $this->resolve_field_key( $form_field );
+
+		return null !== $resolved_key && isset( $this->current_form_field_formats[ $resolved_key ] )
+			? $this->current_form_field_formats[ $resolved_key ]
+			: '';
+	}
+
+	/**
+	 * Convert a SureForms dateFormat attribute to a PHP date format
+	 *
+	 * Mirrors the map SureForms uses itself when it renders and sorts the field.
+	 *
+	 * @since 1.5.5
+	 *
+	 * @param string $date_format SureForms dateFormat attribute.
+	 * @return string PHP date format, or empty string for an unrecognised attribute
+	 */
+	private static function to_php_date_format( $date_format ) {
+		$format_map = array(
+			'mm/dd/yyyy' => 'm/d/Y',
+			'dd/mm/yyyy' => 'd/m/Y',
+			'yyyy/mm/dd' => 'Y/m/d',
+		);
+
+		return $format_map[ $date_format ] ?? '';
 	}
 
 	/**
@@ -571,11 +638,22 @@ class SureForms_Integration extends Base_Integration {
 								( isset( $attrs['fieldLabel'] ) ? $attrs['fieldLabel'] : ucfirst( $field_type ) );
 
 				// Add to fields array.
-				$fields[] = array(
+				$field = array(
 					'id'    => $field_name,
 					'label' => $field_label,
 					'type'  => $field_type,
 				);
+
+				// Carry the declared date format so the value is not guessed later.
+				// parse_blocks() does not apply block.json defaults, so fall back to
+				// the date picker's own default when the attribute is absent.
+				if ( 'date-picker' === $field_type ) {
+					$field['date_format'] = isset( $attrs['dateFormat'] ) && is_string( $attrs['dateFormat'] )
+						? $attrs['dateFormat']
+						: 'mm/dd/yyyy';
+				}
+
+				$fields[] = $field;
 			}
 
 			// Process inner blocks recursively.
