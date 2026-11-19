@@ -51,18 +51,6 @@ class SureCart_Integration extends Base_Integration {
 	private $order_sync;
 
 	/**
-	 * Checkout IDs already tracked in this request.
-	 *
-	 * Prevents double-tracking when both checkout_confirmed and purchase_created
-	 * fire for the same checkout in a single request.
-	 *
-	 * @since 1.4.0
-	 *
-	 * @var array<string, true>
-	 */
-	private $tracked_checkouts = array();
-
-	/**
 	 * Constructor
 	 *
 	 * @since 0.0.1
@@ -448,10 +436,9 @@ class SureCart_Integration extends Base_Integration {
 		// This fires once per order, preventing double-counting while still applying product-specific rules.
 		add_action( 'surecart/checkout_confirmed', array( $this, 'handle_checkout_confirmed' ), 10, 2 );
 
-		// Hook for purchase created - catches orders paid via manuallyPay() (retry of failed payments).
-		// manuallyPay() fires purchase_created but NOT checkout_confirmed, so this is the fallback.
-		// Deduplication with checkout_confirmed is handled via $tracked_checkouts.
-		add_action( 'surecart/purchase_created', array( $this, 'handle_purchase_created' ), 10, 1 );
+		// Hook for purchase created - fallback for paid orders where checkout_confirmed never ran
+		// (browser confirm request lost, manuallyPay() retries). Only the webhook call is handled.
+		add_action( 'surecart/purchase_created', array( $this, 'handle_purchase_created' ), 10, 2 );
 
 		// Hook for subscription renewed - RECURRING REVENUE TRACKING.
 		// This tracks subscription renewal payments that would otherwise be missed.
@@ -490,19 +477,7 @@ class SureCart_Integration extends Base_Integration {
 			return;
 		}
 
-		$checkout = \SureCart\Models\Checkout::with(
-			array(
-				'purchases',
-				'purchases.product',
-				'purchases.price',
-				'purchases.variant',
-				'customer',
-				'customer.shipping_address',
-				'discount',
-				'discount.promotion',
-				'discount.promotion.coupon',
-			)
-		)->find( $checkout_id );
+		$checkout = $this->fetch_checkout( $checkout_id );
 
 		if ( is_wp_error( $checkout ) ) {
 			Logger::error( 'SureCart Integration', 'Failed to fetch checkout: ' . $checkout->get_error_message() );
@@ -516,48 +491,274 @@ class SureCart_Integration extends Base_Integration {
 			return;
 		}
 
-		// Mark as tracked to prevent double-tracking from purchase_created.
-		$this->tracked_checkouts[ $checkout_id ] = true;
-
-		// Process rules/tags for all products in the checkout.
-		$this->process_checkout_rules( $checkout );
-
-		// Track revenue (settings checked inside).
-		$this->track_order_from_checkout( $checkout );
+		$this->process_paid_checkout( $checkout );
 	}
 
 	/**
 	 * Handle purchase created
 	 *
-	 * Catches orders paid via manuallyPay() where checkout_confirmed does NOT fire.
-	 * This is the fallback for retried/manually-paid failed orders.
+	 * Handles purchases that checkout_confirmed did not sync:
+	 * - The whole order, when checkout_confirmed never ran: the browser confirm request was
+	 *   lost (3DS redirect, closed tab), or the order was paid via manuallyPay().
+	 * - A purchase added to an already synced order, e.g. an accepted post-purchase upsell,
+	 *   which SureCart adds to the same order without confirming the checkout again.
+	 *
+	 * SureCart fires this hook from REST requests with one argument (in confirm, just before
+	 * checkout_confirmed), and from the purchase.created webhook with the webhook payload as
+	 * a second argument. The webhook is sent for every new purchase, so only it is handled.
 	 *
 	 * @since 1.4.0
 	 *
 	 * @param \SureCart\Models\Purchase $purchase Purchase object.
+	 * @param object|null               $webhook  Webhook payload, set only for webhook calls.
 	 * @return void
 	 */
-	public function handle_purchase_created( $purchase ) {
-		// Get the checkout/order ID from the purchase.
-		// SureCart's initial_order field holds the checkout ID (string) or expanded object.
-		$initial_order = $purchase->initial_order ?? null;
-		if ( empty( $initial_order ) ) {
+	public function handle_purchase_created( $purchase, $webhook = null ) {
+		if ( empty( $webhook ) ) {
 			return;
 		}
 
-		// initial_order may be an ID string or an expanded object.
-		$checkout_id = is_object( $initial_order ) ? ( $initial_order->id ?? '' ) : (string) $initial_order;
+		// initial_order is the SureCart Order (ID string or expanded object), not the checkout.
+		$order_id = $this->extract_id_from_data( $purchase->initial_order ?? null );
+		if ( empty( $order_id ) ) {
+			Logger::info( 'SureCart Integration', 'Skipping purchase_created without initial_order: ' . ( $purchase->id ?? '' ) );
+			return;
+		}
+
+		$purchase_id = (string) ( $purchase->id ?? '' );
+
+		if ( $this->is_order_synced( $order_id ) ) {
+			// Usual case: checkout_confirmed already synced this purchase (one webhook per purchase in the order).
+			if ( $this->is_purchase_synced( $order_id, $purchase_id ) ) {
+				return;
+			}
+
+			$this->sync_added_purchase( $order_id, $purchase_id );
+			return;
+		}
+
+		$checkout = $this->fetch_paid_checkout_for_order( $order_id );
+		if ( ! $checkout ) {
+			return;
+		}
+
+		if ( $this->process_paid_checkout( $checkout ) ) {
+			Logger::info( 'SureCart Integration', "Synced order {$order_id} from purchase.created webhook (checkout_confirmed did not run)" );
+		}
+	}
+
+	/**
+	 * Sync a purchase added to an already synced order (e.g. an accepted upsell).
+	 *
+	 * Applies the rules of the added purchase only, then sends the whole order with
+	 * `upsert` so SureContact adds the items it does not have yet to the same purchase.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $order_id    SureCart order ID.
+	 * @param string $purchase_id SureCart purchase ID.
+	 * @return void
+	 */
+	private function sync_added_purchase( $order_id, $purchase_id ) {
+		$checkout = $this->fetch_paid_checkout_for_order( $order_id );
+		if ( ! $checkout ) {
+			return;
+		}
+
+		if ( ! in_array( $purchase_id, $this->get_checkout_purchase_ids( $checkout ), true ) ) {
+			Logger::error( 'SureCart Integration', "Purchase {$purchase_id} not found in order {$order_id}, skipping" );
+			return;
+		}
+
+		$this->sync_purchase( $checkout, $purchase_id );
+
+		$synced = get_transient( 'surecontact_surecart_order_' . $order_id );
+		$ids    = is_array( $synced ) && isset( $synced['purchase_ids'] ) ? (array) $synced['purchase_ids'] : array();
+		$ids[]  = $purchase_id;
+		set_transient( 'surecontact_surecart_order_' . $order_id, array( 'purchase_ids' => array_values( array_unique( $ids ) ) ), 7 * DAY_IN_SECONDS );
+
+		Logger::info( 'SureCart Integration', "Synced purchase {$purchase_id} added to order {$order_id}" );
+	}
+
+	/**
+	 * Apply rules/tags for one purchase and update the order's revenue.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \SureCart\Models\Checkout $checkout    Hydrated checkout object.
+	 * @param string                    $purchase_id SureCart purchase ID.
+	 * @return void
+	 */
+	protected function sync_purchase( $checkout, $purchase_id ) {
+		$this->process_checkout_rules( $checkout, array( $purchase_id ) );
+
+		$this->track_order_from_checkout( $checkout, true );
+	}
+
+	/**
+	 * Fetch the paid checkout of a SureCart order.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $order_id SureCart order ID.
+	 * @return \SureCart\Models\Checkout|null Paid checkout, or null if unavailable or unpaid.
+	 */
+	private function fetch_paid_checkout_for_order( $order_id ) {
+		$order = $this->fetch_order( $order_id );
+		if ( is_wp_error( $order ) ) {
+			Logger::error( 'SureCart Integration', "Failed to fetch order {$order_id}: " . $order->get_error_message() );
+			return null;
+		}
+
+		$checkout_id = $this->extract_id_from_data( $order->checkout ?? null );
 		if ( empty( $checkout_id ) ) {
-			return;
+			Logger::error( 'SureCart Integration', "No checkout found on order {$order_id}" );
+			return null;
 		}
 
-		// Skip if checkout_confirmed already tracked this checkout in the same request.
-		if ( ! empty( $this->tracked_checkouts[ $checkout_id ] ) ) {
-			return;
+		$checkout = $this->fetch_checkout( $checkout_id );
+		if ( is_wp_error( $checkout ) ) {
+			Logger::error( 'SureCart Integration', "Failed to fetch checkout {$checkout_id}: " . $checkout->get_error_message() );
+			return null;
 		}
 
-		// Fetch checkout with all relationships (same as handle_checkout_confirmed).
-		$checkout = \SureCart\Models\Checkout::with(
+		$checkout_status = $checkout->status ?? '';
+		if ( 'paid' !== $checkout_status ) {
+			Logger::info( 'SureCart Integration', "Skipping order {$order_id} (checkout {$checkout_id}) with status: {$checkout_status}" );
+			return null;
+		}
+
+		return $checkout;
+	}
+
+	/**
+	 * Sync a paid checkout once per SureCart order.
+	 *
+	 * Shared by checkout_confirmed and the purchase_created webhook, which run in separate
+	 * requests, so the guard is a transient.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \SureCart\Models\Checkout $checkout Hydrated, paid checkout.
+	 * @return bool True if synced, false if already synced.
+	 */
+	private function process_paid_checkout( $checkout ) {
+		// Same ID track_order_from_checkout() sends as the revenue order ID.
+		$order_id = $this->extract_id_from_data( $checkout->order ?? null );
+		if ( empty( $order_id ) ) {
+			$order_id = (string) ( $checkout->id ?? '' );
+		}
+
+		if ( ! empty( $order_id ) ) {
+			if ( $this->is_order_synced( $order_id ) ) {
+				Logger::info( 'SureCart Integration', "Order {$order_id} already synced, skipping" );
+				return false;
+			}
+
+			// Mark before syncing to keep the window for a concurrent duplicate small.
+			// The purchase IDs let the purchase.created webhook spot purchases added later (e.g. upsells).
+			set_transient( 'surecontact_surecart_order_' . $order_id, array( 'purchase_ids' => $this->get_checkout_purchase_ids( $checkout ) ), 7 * DAY_IN_SECONDS );
+		}
+
+		$this->sync_checkout( $checkout );
+
+		return true;
+	}
+
+	/**
+	 * Apply rules/tags and track revenue for a checkout.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \SureCart\Models\Checkout $checkout Hydrated checkout object.
+	 * @return void
+	 */
+	protected function sync_checkout( $checkout ) {
+		// Process rules/tags for all products in the checkout.
+		$this->process_checkout_rules( $checkout );
+
+		// Track revenue (settings checked inside).
+		$this->track_order_from_checkout( $checkout, true );
+	}
+
+	/**
+	 * Check whether a SureCart order has already been synced.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $order_id SureCart order ID.
+	 * @return bool
+	 */
+	private function is_order_synced( $order_id ) {
+		return (bool) get_transient( 'surecontact_surecart_order_' . $order_id );
+	}
+
+	/**
+	 * Check whether a purchase was part of the order when it was synced.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $order_id    SureCart order ID.
+	 * @param string $purchase_id SureCart purchase ID.
+	 * @return bool
+	 */
+	private function is_purchase_synced( $order_id, $purchase_id ) {
+		$synced = get_transient( 'surecontact_surecart_order_' . $order_id );
+
+		return is_array( $synced ) && isset( $synced['purchase_ids'] ) && in_array( $purchase_id, (array) $synced['purchase_ids'], true );
+	}
+
+	/**
+	 * Get the IDs of the purchases in a checkout.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \SureCart\Models\Checkout $checkout Hydrated checkout object.
+	 * @return array<int, string>
+	 */
+	private function get_checkout_purchase_ids( $checkout ) {
+		$ids = array();
+		foreach ( $this->get_checkout_purchases( $checkout ) as $purchase_item ) {
+			$id = $this->extract_id_from_data( $purchase_item );
+			if ( ! empty( $id ) ) {
+				$ids[] = (string) $id;
+			}
+		}
+
+		return $ids;
+	}
+
+	/**
+	 * Get the purchases of a checkout as a list.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param \SureCart\Models\Checkout $checkout Hydrated checkout object.
+	 * @return array<int, object|array>
+	 */
+	private function get_checkout_purchases( $checkout ) {
+		$purchases_data = array();
+		if ( isset( $checkout->purchases ) ) {
+			if ( is_object( $checkout->purchases ) && isset( $checkout->purchases->data ) ) {
+				$purchases_data = $checkout->purchases->data;
+			} elseif ( is_array( $checkout->purchases ) ) {
+				$purchases_data = isset( $checkout->purchases['data'] ) ? $checkout->purchases['data'] : $checkout->purchases;
+			}
+		}
+
+		return is_array( $purchases_data ) ? $purchases_data : array();
+	}
+
+	/**
+	 * Fetch a checkout with every relation needed for rules and revenue tracking.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $checkout_id SureCart checkout ID.
+	 * @return \SureCart\Models\Checkout|\WP_Error
+	 */
+	protected function fetch_checkout( $checkout_id ) {
+		return \SureCart\Models\Checkout::with(
 			array(
 				'purchases',
 				'purchases.product',
@@ -570,27 +771,18 @@ class SureCart_Integration extends Base_Integration {
 				'discount.promotion.coupon',
 			)
 		)->find( $checkout_id );
+	}
 
-		if ( is_wp_error( $checkout ) ) {
-			return;
-		}
-
-		// Only track paid checkouts.
-		$checkout_status = $checkout->status ?? '';
-		if ( 'paid' !== $checkout_status ) {
-			return;
-		}
-
-		// Mark as tracked.
-		$this->tracked_checkouts[ $checkout_id ] = true;
-
-		Logger::info( 'SureCart Integration', "Tracking order from purchase_created (payment retry): {$checkout_id}" );
-
-		// Process rules/tags for all products in the checkout.
-		$this->process_checkout_rules( $checkout );
-
-		// Track revenue (settings checked inside).
-		$this->track_order_from_checkout( $checkout );
+	/**
+	 * Fetch a SureCart order.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $order_id SureCart order ID.
+	 * @return \SureCart\Models\Order|\WP_Error
+	 */
+	protected function fetch_order( $order_id ) {
+		return \SureCart\Models\Order::find( $order_id );
 	}
 
 	/**
@@ -710,11 +902,13 @@ class SureCart_Integration extends Base_Integration {
 	 * Iterates through all purchases and applies product-specific rules.
 	 *
 	 * @since 1.0.0
+	 * @since 1.6.0 Added the $purchase_ids parameter.
 	 *
-	 * @param \SureCart\Models\Checkout $checkout Hydrated checkout object.
+	 * @param \SureCart\Models\Checkout $checkout     Hydrated checkout object.
+	 * @param array<int, string>|null   $purchase_ids Only apply the rules of these purchases (coupon rules are skipped). Null for all.
 	 * @return void
 	 */
-	private function process_checkout_rules( $checkout ) {
+	private function process_checkout_rules( $checkout, $purchase_ids = null ) {
 		// Get purchases from checkout.
 		$purchases_data = array();
 		if ( isset( $checkout->purchases ) ) {
@@ -723,6 +917,17 @@ class SureCart_Integration extends Base_Integration {
 			} elseif ( is_array( $checkout->purchases ) ) {
 				$purchases_data = isset( $checkout->purchases['data'] ) ? $checkout->purchases['data'] : $checkout->purchases;
 			}
+		}
+
+		if ( null !== $purchase_ids && is_array( $purchases_data ) ) {
+			$purchases_data = array_values(
+				array_filter(
+					$purchases_data,
+					function ( $purchase_item ) use ( $purchase_ids ) {
+						return in_array( (string) $this->extract_id_from_data( $purchase_item ), $purchase_ids, true );
+					}
+				)
+			);
 		}
 
 		if ( empty( $purchases_data ) ) {
@@ -771,8 +976,8 @@ class SureCart_Integration extends Base_Integration {
 		$merged_actions['remove_lists'] = array_unique( $merged_actions['remove_lists'], SORT_REGULAR );
 		$merged_actions['remove_tags']  = array_unique( $merged_actions['remove_tags'], SORT_REGULAR );
 
-		// Check for coupon actions.
-		$coupon_id = $this->get_coupon_id_from_checkout( $checkout );
+		// Check for coupon actions (already applied with the order when only some purchases are processed).
+		$coupon_id = null === $purchase_ids ? $this->get_coupon_id_from_checkout( $checkout ) : null;
 		if ( ! empty( $coupon_id ) ) {
 			$coupon_config = $this->get_coupon_config( $coupon_id, 'applied' );
 			if ( ! empty( $coupon_config ) && isset( $coupon_config['config'] ) ) {
@@ -1502,11 +1707,13 @@ class SureCart_Integration extends Base_Integration {
 	 * Fires ONCE per order (via checkout_confirmed hook) regardless of number of products.
 	 *
 	 * @since 1.0.0
+	 * @since 1.6.0 Added the $upsert parameter.
 	 *
 	 * @param \SureCart\Models\Checkout $checkout Hydrated checkout object.
+	 * @param bool                      $upsert   Ask SureContact to add items missing from an already tracked order.
 	 * @return void
 	 */
-	private function track_order_from_checkout( $checkout ) {
+	private function track_order_from_checkout( $checkout, $upsert = false ) {
 		if ( ! $this->is_global_enabled() ) {
 			return;
 		}
@@ -1518,6 +1725,21 @@ class SureCart_Integration extends Base_Integration {
 		$order_data = $this->extract_order_data_from_checkout( $checkout );
 		if ( ! $order_data ) {
 			return;
+		}
+
+		// Upsert identifies items by item_id, so only send it when every product has one.
+		if ( $upsert ) {
+			$has_item_ids = true;
+			foreach ( $order_data['products'] as $product ) {
+				if ( empty( $product['item_id'] ) ) {
+					$has_item_ids = false;
+					break;
+				}
+			}
+
+			if ( $has_item_ids ) {
+				$order_data['upsert'] = true;
+			}
 		}
 
 		$result = $this->ecommerce_api->track_purchase( $order_data, array( 'source' => $this->slug ) );
@@ -1645,6 +1867,7 @@ class SureCart_Integration extends Base_Integration {
 					'quantity'   => (int) $quantity,
 					'price'      => $item_price,
 					'variant_id' => $variant_id,
+					'item_id'    => (string) $this->extract_id_from_data( $purchase_item ),
 				);
 			}
 		}

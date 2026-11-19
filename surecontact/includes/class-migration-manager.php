@@ -49,7 +49,7 @@ class Migration_Manager {
 	 *
 	 * @var string
 	 */
-	const CURRENT_DB_VERSION = '1.1.0';
+	const CURRENT_DB_VERSION = '1.2.0';
 
 	/**
 	 * Maybe run migrations if needed.
@@ -134,6 +134,10 @@ class Migration_Manager {
 			array(
 				'version' => '1.1.0',
 				'method'  => 'migrate_presto_player_progress_thresholds',
+			),
+			array(
+				'version' => '1.2.0',
+				'method'  => 'mark_connected_sites_as_synced',
 			),
 		);
 	}
@@ -225,6 +229,25 @@ class Migration_Manager {
 		}
 
 		Logger::info( 'Migration', sprintf( 'Presto Player migration: %d configurations updated', $updated_count ) );
+
+		return true;
+	}
+
+	/**
+	 * Treat sites that were already connected before the Setup screen existed as synced.
+	 *
+	 * The Setup screen's "synced" check looks in the API queue log, but successful rows
+	 * are pruned after the log retention period (1 day by default), so long-standing
+	 * sites would otherwise be sent back to the Setup screen after upgrading.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return true
+	 */
+	private static function mark_connected_sites_as_synced() {
+		if ( get_option( 'surecontact_workspace_uuid' ) && ! get_option( Dashboard_Setup::SYNCED_OPTION ) ) {
+			update_option( Dashboard_Setup::SYNCED_OPTION, time(), false );
+		}
 
 		return true;
 	}

@@ -67,6 +67,13 @@ class SaaS_Client {
 	private static $rate_limited_this_request = false;
 
 	/**
+	 * Option holding when the workspace last hit its plan limit.
+	 *
+	 * @since 1.6.0
+	 */
+	const PLAN_LIMIT_OPTION = 'surecontact_plan_limit_hit';
+
+	/**
 	 * Constructor
 	 *
 	 * @since 0.0.1
@@ -131,6 +138,10 @@ class SaaS_Client {
 	 * @return void
 	 */
 	private function maybe_flag_rate_limit( $code, $body ) {
+		if ( 403 === $code && is_string( $body ) && false !== stripos( $body, 'plan_limit_exceeded' ) ) {
+			self::record_plan_limit_hit();
+		}
+
 		if ( self::$rate_limited_this_request ) {
 			return;
 		}
@@ -142,6 +153,49 @@ class SaaS_Client {
 
 		if ( 403 === $code && is_string( $body ) && false !== stripos( $body, 'plan_limit_exceeded' ) ) {
 			self::$rate_limited_this_request = true;
+		}
+	}
+
+	/**
+	 * Remember that the workspace hit its plan limit, so the Bulk Sync screen
+	 * can tell the user why syncing paused. Written at most every 10 minutes.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return void
+	 */
+	public static function record_plan_limit_hit() {
+		$last = (int) get_option( self::PLAN_LIMIT_OPTION, 0 );
+		if ( time() - $last > 10 * MINUTE_IN_SECONDS ) {
+			update_option( self::PLAN_LIMIT_OPTION, time(), false );
+		}
+	}
+
+	/**
+	 * When the workspace last hit its plan limit (unix time), or 0.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return int
+	 */
+	public static function get_plan_limit_hit() {
+		return (int) get_option( self::PLAN_LIMIT_OPTION, 0 );
+	}
+
+	/**
+	 * Forget a plan-limit hit once contacts sync again.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param string $endpoint Endpoint that just succeeded.
+	 * @return void
+	 */
+	private function maybe_clear_plan_limit_hit( $endpoint ) {
+		if ( ! in_array( ltrim( $endpoint, '/' ), array( 'wordpress/sync-contact', 'wordpress/sync-contacts-bulk' ), true ) ) {
+			return;
+		}
+		if ( self::get_plan_limit_hit() ) {
+			delete_option( self::PLAN_LIMIT_OPTION );
 		}
 	}
 
@@ -303,6 +357,9 @@ class SaaS_Client {
 					)
 				);
 			}
+
+			$this->maybe_clear_plan_limit_hit( $endpoint );
+			Dashboard_Setup::maybe_record_sync( $endpoint );
 
 			$data = json_decode( $body, true );
 

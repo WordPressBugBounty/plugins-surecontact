@@ -221,6 +221,7 @@ class Integrations_Loader {
 				'file'        => 'class-jetformbuilder-integration.php',
 				'dependency'  => 'Jet_Form_Builder\\Plugin',
 				'plugin_file' => 'jetformbuilder/jet-form-builder.php',
+				'icon_url'    => SURECONTACT_PLUGIN_URL . 'assets/images/brands/icons/JetFormBuilder.svg',
 			),
 			'ws-form'                => array(
 				'name'        => 'WS Form',

@@ -4,7 +4,7 @@ Tags: crm, email marketing, newsletter, ecommerce, email automation
 Requires at least: 5.8
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.5.5
+Stable tag: 1.6.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -228,6 +228,14 @@ You can report the issue through our [Bug Bounty Program](https://brainstormforc
 4. App Email Templates
 
 == Changelog ==
+
+= 1.6.0 - 19th November 2026 =
+* New: Redesigned dashboard with your account numbers, audience growth, last campaign, running automations, plan usage and newest contacts.
+* New: Setup screen that guides new sites through turning on an integration and syncing their contacts.
+* New: Add-ons window to buy Sales and SMTP add-ons from inside the plugin.
+* New: Tracks SureCart post-purchase upsells, applying tags and lists and recording the revenue.
+* Fix: SureCart orders are now synced even when the checkout confirmation event never fires, without syncing the same order twice.
+* Fix: API log clean-up and the background queue processor are now scheduled on every site, so old API logs are removed after the retention period.
 
 = 1.5.5 - 15th September 2026 =
 * Fix: Date fields now sync using the format declared by the form, so dd/mm/yyyy dates no longer reach the CRM with the day and month transposed.

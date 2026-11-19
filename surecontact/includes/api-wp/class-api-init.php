@@ -72,6 +72,9 @@ class Api_Init {
 			'\SureContact\API_WP\Settings_API',
 			'\SureContact\API_WP\Lists_Tags_API',
 			'\SureContact\API_WP\Queue_Rest_Controller',
+			'\SureContact\API_WP\Promo_API',
+			'\SureContact\API_WP\Addons_API',
+			'\SureContact\API_WP\Dashboard_API',
 		);
 
 		foreach ( $controllers as $controller_class ) {

@@ -40,11 +40,19 @@ delete_option( 'surecontact_synced_metadata' );
 delete_option( 'surecontact_contact_fields' );
 delete_option( 'surecontact_custom_metafields' );
 delete_option( 'surecontact_general_settings' );
+delete_option( 'surecontact_plan_limit_hit' );
+delete_option( 'surecontact_first_contact_synced_at' );
+delete_transient( 'surecontact_setup_not_synced' );
 delete_option( 'surecontact_db_version' );
 delete_option( 'surecontact_api_queue_table_version' );
 delete_option( 'surecontact_integrations_table_version' );
 delete_option( 'surecontact_abandoned_carts_table_version' );
 delete_option( 'surecontact_third_party_integrations' );
+
+// Delete BFCM promo dismissals for every user.
+delete_metadata( 'user', 0, 'surecontact_bfcm_2026_dismissed_sale-bar', '', true );
+delete_metadata( 'user', 0, 'surecontact_bfcm_2026_dismissed_admin-notice', '', true );
+delete_metadata( 'user', 0, 'surecontact_dashboard_setup_skipped', '', true );
 
 // Clear any wp-cron schedules registered by the plugin (Action Scheduler jobs
 // are already cancelled above; these cover the wp-cron fallbacks).

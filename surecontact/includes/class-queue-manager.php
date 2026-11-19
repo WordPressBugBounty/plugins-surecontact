@@ -87,6 +87,32 @@ class Queue_Manager {
 	const BATCH_SIZE = 10;
 
 	/**
+	 * Shared instance
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var Queue_Manager|null
+	 */
+	private static $instance = null;
+
+	/**
+	 * Get the shared instance.
+	 *
+	 * Use this instead of `new Queue_Manager()` so the queue hooks are
+	 * registered only once per request.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return Queue_Manager
+	 */
+	public static function instance() {
+		if ( null === self::$instance ) {
+			self::$instance = new self();
+		}
+		return self::$instance;
+	}
+
+	/**
 	 * Constructor
 	 *
 	 * @since 0.0.1
@@ -109,7 +135,16 @@ class Queue_Manager {
 		add_action( self::CLEANUP_HOOK, array( $this, 'cleanup_old_records' ) );
 
 		add_action( 'action_scheduler_completed_action', array( $this, 'cleanup_completed_action_logs' ), 10, 1 );
-		add_action( 'action_scheduler_init', array( $this, 'maybe_schedule_processor' ) );
+
+		// AS dispatches `action_scheduler_init` at `init` priority 1; the manager
+		// constructs at `init` priority 2, so the action has already fired by the
+		// time we get here. Call directly when that's the case, otherwise hook it
+		// for the (rare) path where AS initializes later.
+		if ( did_action( 'action_scheduler_init' ) ) {
+			$this->maybe_schedule_processor();
+		} else {
+			add_action( 'action_scheduler_init', array( $this, 'maybe_schedule_processor' ) );
+		}
 	}
 
 	/**

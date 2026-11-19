@@ -10,6 +10,7 @@
 namespace SureContact\Admin;
 
 use SureContact\Auth_Manager;
+use SureContact\Promo_Service;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -165,6 +166,12 @@ class Admin_Menu {
 			'pluginInstallationPermission' => current_user_can( 'install_plugins' ) ? '1' : '0',
 			'version'                      => SURECONTACT_VERSION,
 			'isRtl'                        => is_rtl(),
+			'promo'                        => ( new Promo_Service( $this->auth_manager ) )->get_state(),
+			'planLimitHitAt'               => \SureContact\SaaS_Client::get_plan_limit_hit(),
+			// Setup screen vs dashboard (local data only; null when not connected).
+			'dashboardSetup'               => $is_authenticated ? ( new \SureContact\Dashboard_Setup() )->get_state() : null,
+			// For the dashboard greeting ("Welcome back, Priya"); only the admin's own first name.
+			'userFirstName'                => $is_authenticated && $current_user ? (string) $current_user->first_name : '',
 		);
 
 		// Admin profile fields only pre-fill the in-plugin signup form, which

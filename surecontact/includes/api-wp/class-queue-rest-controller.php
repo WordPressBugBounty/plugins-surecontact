@@ -77,7 +77,7 @@ class Queue_Rest_Controller extends Api_Base {
 	 */
 	private function __construct() {
 		parent::__construct();
-		$this->queue_manager = new Queue_Manager();
+		$this->queue_manager = Queue_Manager::instance();
 	}
 
 	/**

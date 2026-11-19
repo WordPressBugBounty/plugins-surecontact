@@ -15,6 +15,7 @@ namespace SureContact\API_WP;
 
 use WP_REST_Server;
 use WP_Error;
+use SureContact\Dashboard_Setup;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -393,6 +394,10 @@ class Rest_Controller extends Api_Base {
 
 		// Settings.
 		delete_option( 'surecontact_general_settings' );
+
+		// "Skip setup" only applies to this connection. The synced flag is kept: contacts have
+		// already synced from this site, so a reconnect must not send it back to the Setup screen.
+		delete_metadata( 'user', 0, Dashboard_Setup::SKIP_META, '', true );
 
 		// Note: Database version options (surecontact_db_version, surecontact_api_queue_table_version,
 		// surecontact_integrations_table_version) are intentionally NOT deleted on disconnect.
